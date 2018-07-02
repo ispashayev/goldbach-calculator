@@ -6,21 +6,39 @@ class GoldbachConjecture extends Component {
     super(props);
     this.state = {
       n: "",
+      queriedN: "",
       primeOne: "",
       primeTwo: "",
+      history: [],
     };
   }
 
   submitGoldbachQuery() {
+    if (this.state.queriedN !== "") {
+      /* Append previous query to history. */
+      var newArray = this.state.history.slice();
+      newArray.push({
+        index: this.state.history.length,
+        n: this.state.queriedN,
+        primeOne: this.state.primeOne,
+        primeTwo: this.state.primeTwo,
+      });
+      this.setState({
+        history: newArray
+      });
+    }
     axios.get(`/curiosities/goldbach/${this.state.n}`)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
+          queriedN: this.state.n,
           primeOne: res.data.primeOne,
           primeTwo: res.data.primeTwo,
         });
       } else {
+        /* Bad query, reset query state. */
         this.setState({
+          queriedN: "",
           primeOne: "",
           primeTwo: "",
         });
@@ -31,7 +49,6 @@ class GoldbachConjecture extends Component {
   render() {
     return(
       <div>
-        
         <h1 className="curiosity-title">The Goldbach Conjecture</h1>
         <div>
           Any even number can be expressed as the sum of two primes. We define this
@@ -39,8 +56,16 @@ class GoldbachConjecture extends Component {
         </div>
         <br />
         <div className="goldbach-conjecture-factorization-history">
-          Previous queries: (TODO)
-          <br />
+          <div>Previous queries</div>
+          <ul>
+            {
+              this.state.history.map((query) =>
+                <li key={query.index}>
+                  {query.n} = {query.primeOne} + {query.primeTwo}
+                </li>
+              )
+            }
+          </ul>
         </div>
         <div className="goldbach-conjecture-factorizer">
           <div>
@@ -48,10 +73,12 @@ class GoldbachConjecture extends Component {
               Enter an even number:&nbsp;
               <input type="text" onChange={(event) => this.setState({ n: event.target.value })} />
             </label>
+            &nbsp;
+            <button onClick={() => this.submitGoldbachQuery()}>
+              Compute prime pair!
+            </button>
           </div>
-          <button onClick={() => this.submitGoldbachQuery()}>
-            Compute prime pair!
-          </button>
+          <br />
           <div>Factor one: {this.state.primeOne}</div>
           <div>Factor two: {this.state.primeTwo}</div>
         </div>
