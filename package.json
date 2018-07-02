@@ -10,7 +10,7 @@
     "server": "nodemon webServer.js",
     "dev": "concurrently --kill-others \"yarn server\" \"yarn client\"",
     "heroku-postbuild": "cd client && yarn && yarn run build",
-    "start": "yarn dev"
+    "start": "node webServer.js"
   },
   "author": "Iskandar Pashayev",
   "license": "MIT",
