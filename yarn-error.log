@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn dev
+  /usr/local/bin/node /usr/local/bin/yarn version
 
 PATH: 
   /home/iskandar/.rbenv/plugins/ruby-build/bin:/home/iskandar/.rbenv/shims:/home/iskandar/.rbenv/bin:/home/iskandar/anaconda2/bin:/home/iskandar/bin:/home/iskandar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
@@ -22,7 +22,8 @@ npm manifest:
       "client": "cd client && yarn start",
       "server": "nodemon webServer.js",
       "dev": "concurrently --kill-others \"yarn server\" \"yarn client\"",
-      "heroku-postbuild": "cd client && yarn && yarn run build"
+      "heroku-postbuild": "cd client && yarn",
+      "start": "yarn dev"
     },
     "author": "Iskandar Pashayev",
     "license": "MIT",
@@ -30,6 +31,10 @@ npm manifest:
       "concurrently": "^3.6.0",
       "express": "^4.16.3",
       "nodemon": "^1.17.5"
+    },
+    "engines": {
+      "node": "8.7.0",
+      "yarn": "1.5.0"
     }
   }
 
@@ -1982,17 +1987,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.2.tgz#8452b4bb7e83c7c188d8041c1a837c773d6d8bb9"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 127
-  Command: sh
-  Arguments: -c concurrently --kill-others "yarn server" "yarn client"
-  Directory: /home/iskandar/GitHub/the-curiosity-series
-  Output:
-  
-      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:128791:13)
+      at emitNone (events.js:105:13)
+      at Interface.emit (events.js:207:7)
+      at Interface._ttyWrite (readline.js:775:16)
+      at ReadStream.onkeypress (readline.js:160:10)
       at emitTwo (events.js:125:13)
-      at ChildProcess.emit (events.js:213:7)
-      at maybeClose (internal/child_process.js:927:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+      at ReadStream.emit (events.js:213:7)
+      at emitKeys (internal/readline.js:420:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1011:36)
