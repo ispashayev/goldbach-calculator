@@ -21,7 +21,7 @@ fs.readFile('data/primes.dat', function (error, dataBuffer) {
 });
 
 /* We have the express static module do all the work for us. */
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 /* TODO: Refactor for React App */
 // app.get('/curiosities', function (request, response) {
@@ -87,6 +87,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-const portno = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-app.listen(portno, () => console.log(`Listening on port ${portno}`));
+app.listen(port, () => console.log(`Listening on port ${port}`));
