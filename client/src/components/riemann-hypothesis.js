@@ -4,7 +4,7 @@ class RiemannHypothesis extends Component {
   render() {
     return(
       <div>
-        <p>Howdy this is the Riemann Hypothesis component.</p>
+        <p>In progress: still being refactored from the original Angular app.</p>
       </div>
     );
   }
