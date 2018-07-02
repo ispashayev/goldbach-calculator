@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Contains client and server directories for The Curiosity Series app",
   "engines": {
-    "node": "8.7.0",
-    "yarn": "1.5.0"
+    "node": "8.7.0"
   },
   "scripts": {
     "client": "cd client && yarn start",
