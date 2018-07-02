@@ -4,12 +4,15 @@
   "description": "Contains client and server directories for The Curiosity Series app",
   "scripts": {
     "client": "cd client && yarn start",
-    "server": "cd server && yarn start",
-    "dev": "concurrently --kill-others \"yarn server\" \"yarn client\""
+    "server": "nodemon webServer.js",
+    "dev": "concurrently --kill-others \"yarn server\" \"yarn client\"",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "author": "Iskandar Pashayev",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^3.6.0"
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.5"
   }
 }

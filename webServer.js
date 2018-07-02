@@ -1,26 +1,27 @@
 'use strict';
 
-var express = require('express');
-var portno = process.env.PORT || 3001;
-var app = express();
+const express = require('express');
+const path = require('path');
+
+const app = express();
 
 var primes;
 
 var fs = require('fs');
-fs.readFile("data/primes.dat", function (error, dataBuffer) {
-  console.log("Parsing primes file...");
+fs.readFile('data/primes.dat', function (error, dataBuffer) {
+  console.log('Parsing primes file...');
   if (error) {
-    console.log("Error opening primes file.");
+    console.log('Error opening primes file.');
   } else {
     primes = dataBuffer.toString().split("\n").map(function (p) {
       return parseInt(p);
     });
-    console.log("Done.");
+    console.log('Done.');
   }
 });
 
 /* We have the express static module do all the work for us. */
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 /* TODO: Refactor for React App */
 // app.get('/curiosities', function (request, response) {
@@ -80,5 +81,12 @@ app.get('/curiosities/goldbach/:n', function(request, response) {
   response.status(200).send(result);
 });
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
+const portno = process.env.PORT || 5000;
 
 app.listen(portno, () => console.log(`Listening on port ${portno}`));
