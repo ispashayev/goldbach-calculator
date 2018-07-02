@@ -21,7 +21,7 @@ fs.readFile('data/primes.dat', function (error, dataBuffer) {
 });
 
 /* We have the express static module do all the work for us. */
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 /* TODO: Refactor for React App */
 // app.get('/curiosities', function (request, response) {
