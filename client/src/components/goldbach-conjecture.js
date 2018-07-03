@@ -98,10 +98,10 @@ class GoldbachConjecture extends Component {
         <div>
           Take for example the number 14. There are two pairs of primes such that
           their sum is equal to 14:
-          <MathJax.Node formula={
-            `(3,11): 3 + 11 = 14 \\\\
-            (7,7): 7 + 7 = 14`
-          } />
+          <MathJax.Node formula={`
+            (3,11): 3 + 11 = 14 \\\\
+            (7,7): 7 + 7 = 14
+          `} />
           This implies that
           &nbsp;<MathJax.Node inline formula="f(3,11) = f(7,7) = 14" />.
         </div>

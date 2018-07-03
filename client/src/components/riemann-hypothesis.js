@@ -14,8 +14,7 @@ class RiemannHypothesis extends Component {
           <br />
           <div>
             The definition is as follows:
-            <MathJax.Node formula={
-            `
+            <MathJax.Node formula={`
               \\zeta(s) = \\sum_{n=1}^{\\infty} \\frac{1}{n^s} = \\frac{1}{1^s} + \\frac{1}{2^s} + \\frac{1}{3^s} + \\cdots
             `} />
           </div>
