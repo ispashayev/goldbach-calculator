@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MathJax from "react-mathjax";
 
 class GoldbachConjecture extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class GoldbachConjecture extends Component {
 
   render() {
     return(
-      <div>
+      <MathJax.Provider>
         <h1 className="curiosity-title">The Goldbach Conjecture</h1>
         <div>
           Any even number can be expressed as the sum of two primes. We define this
@@ -85,27 +86,34 @@ class GoldbachConjecture extends Component {
         <br />
         <div>
           It's interesting to note that the Goldbach conjecture implies the
-          existence of a function (or an algorithm) $f$ that maps a pair of
-          primes $(p,q)$ to an even number $n$. However, such a function cannot
-          be a one-to-one mapping.
+          existence of a function (or an algorithm)
+          &nbsp;<MathJax.Node inline formula={"f"} />&nbsp;
+          that maps a pair of primes
+          &nbsp;<MathJax.Node inline formula={"(p,q)"} />&nbsp;
+          to an even number
+          &nbsp;<MathJax.Node inline formula={"n"} />.
+          However, such a function cannot be a one-to-one mapping.
         </div>
         <br />
         <div>
           Take for example the number 14. There are two pairs of primes such that
           their sum is equal to 14:
-          $$
-          (3,11): 3 + 11 = 14 \\
-          (7,7): 7 + 7 = 14
-          $$
-          This implies that $f(3,11) = f(7,7) = 14$.
+          <MathJax.Node formula={
+            `(3,11): 3 + 11 = 14 \\\\
+            (7,7): 7 + 7 = 14`
+          } />
+          This implies that
+          &nbsp;<MathJax.Node inline formula="f(3,11) = f(7,7) = 14" />.
         </div>
         <br />
         <div>
           In math, we call a one-to-one mapping a bijective function, or just a
           bijection. We care about bijections because their inverses map to
           exactly one element. However, in our case there is no straightforward
-          way of inverting $f$. Instead, every even number has at least one
-          solution pair. Such a function is said to be surjective.
+          way of inverting
+          &nbsp;<MathJax.Node inline formula="f" />.
+          Instead, every even number has at least one solution pair. Such a
+          function is said to be surjective.
         </div>
         <br />
         <div>
@@ -125,7 +133,7 @@ class GoldbachConjecture extends Component {
           <a href="https://github.com/ispashayev/algorithms/blob/master/lib/sieve-of-eratosthones.f03" target="_blank" rel="noopener noreferrer">here</a>.
         </div>
 
-      </div>
+      </MathJax.Provider>
     );
   }
 }
