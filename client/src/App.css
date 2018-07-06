@@ -28,10 +28,29 @@
 }
 
 .routerFlexBox {
+  margin-top: 20px;
   display: flex;
+  border-top: 2px solid teal;
+  border-bottom: 2px solid teal;
 }
 
 .navigation {
   flex: 0 0 230px;
-  border-right: 5px cyan;
+  border-right: 3px solid #222;
+}
+
+.content {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+}
+
+.curiosity-link {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+.curiosity-title {
+  color: #222;
 }

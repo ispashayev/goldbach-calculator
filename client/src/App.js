@@ -17,8 +17,8 @@ class App extends Component {
         </header>
         <HashRouter>
           <div className="routerFlexBox">
-            <Navigation className="navigation" />
-            <Content className="content" />
+            <Navigation />
+            <Content />
           </div>
         </HashRouter>
       </div>
