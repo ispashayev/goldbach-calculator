@@ -37,6 +37,7 @@
 .navigation {
   flex: 0 0 230px;
   border-right: 3px solid #222;
+  padding-bottom: 5px;
 }
 
 .content {
