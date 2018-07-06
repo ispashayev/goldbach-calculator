@@ -6,7 +6,7 @@ class RiemannHypothesis extends Component {
     return(
       <div>
         <MathJax.Provider>
-          <h1 class="curiosity-title">The Riemann Hypothesis</h1>
+          <h1 className="curiosity-title">The Riemann Hypothesis</h1>
           <div>
             We will first define The Riemann zeta function and then dissect and
             interpret it.
