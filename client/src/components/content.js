@@ -11,7 +11,7 @@ import RiemannHypothesis from "./riemann-hypothesis";
 class Content extends Component {
   render() {
     return(
-      <div className="content">
+      <div>
         <Route path="/" exact component={Home} />
         <Route path="/goldbach-conjecture" component={GoldbachConjecture}/>
         <Route path="/graph-isomorphism" component={GraphIsomorphism}/>

@@ -9,14 +9,14 @@ import Content from "./components/content";
 
 class App extends Component {
   render() {
-    return (
+    return(
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">The Curiosity Series</h1>
         </header>
         <HashRouter>
-          <div>
+          <div className="routerFlexBox">
             <Navigation className="navigation" />
             <Content className="content" />
           </div>

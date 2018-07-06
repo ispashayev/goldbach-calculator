@@ -27,10 +27,11 @@
   to { transform: rotate(360deg); }
 }
 
+.routerFlexBox {
+  display: flex;
+}
+
 .navigation {
-  float: left;
-  width: 15%;
-  height: 100vh;
-  border-right: 5px solid black;
-  margin-bottom: 20px;
+  flex: 0 0 230px;
+  border-right: 5px cyan;
 }
