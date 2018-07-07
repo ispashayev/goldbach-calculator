@@ -17,6 +17,13 @@ class GraphIsomorphism extends Component {
     };
   }
 
+  resetVertices() {
+    this.setState({
+      vertexOne: "",
+      vertexTwo: "",
+    });
+  }
+
   addVertex() {
     if (this.state.vertexOne === "") {
       alert("Please enter a label for the vertex!");
@@ -25,6 +32,7 @@ class GraphIsomorphism extends Component {
 
     if (this.state.labelToID[this.state.vertexOne] !== undefined) {
       alert("Vertex already exists. Please enter a new label.");
+      this.resetVertices();
       return;
     }
 
@@ -54,12 +62,14 @@ class GraphIsomorphism extends Component {
     var idOne = this.state.labelToID[this.state.vertexOne];
     if (idOne === undefined) {
       alert("Vertex one is not in the graph.");
+      this.resetVertices();
       return;
     }
 
     var idTwo = this.state.labelToID[this.state.vertexTwo];
     if (idTwo === undefined) {
       alert("Vertex two is not in the graph.");
+      this.resetVertices();
       return;
     }
 
@@ -76,6 +86,38 @@ class GraphIsomorphism extends Component {
     });
   }
 
+  displayGraphOperations() {
+    if (this.state.addingVertex && this.state.addingEdge) {
+      // TODO: reset state
+      console.log("Something has horribly gone wrong.");
+    } else if (this.state.addingVertex) {
+      return(
+        <button onClick={() => this.setState({
+          addingEdge: true,
+          addingVertex: false,
+          vertexOne: "",
+          vertexTwo: "",
+        })}>
+          Add edge
+        </button>
+      );
+    } else if (this.state.addingEdge) {
+      return(
+        <button onClick={() => this.setState({
+          addingVertex: true,
+          addingEdge: false,
+          vertexOne: "",
+          vertexTwo: "",
+        })}>
+          Add vertex
+        </button>
+      );
+    } else {
+      // TODO: reset state
+      console.log("Something has horribly gone wrong.");
+    }
+  }
+
   addGraphComponents() {
     if (this.state.addingVertex && this.state.addingEdge) {
       // TODO: reset state
@@ -86,7 +128,11 @@ class GraphIsomorphism extends Component {
         <div>
           <label>
             Enter a vertex:&nbsp;
-            <input type="text" onChange={(event) => this.setState({ vertexOne: event.target.value })} />
+            <input
+              type="text"
+              value={this.state.vertexOne}
+              onChange={(event) => this.setState({ vertexOne: event.target.value })}
+            />
           </label>
           <br /><br />
           <button onClick={() => this.addVertex()}>Submit</button>
@@ -97,12 +143,20 @@ class GraphIsomorphism extends Component {
         <div>
           <label>
             First vertex in edge:&nbsp;
-            <input type="text" onChange={(event) => this.setState({ vertexOne: event.target.value })} />
+            <input
+              type="text"
+              value={this.state.vertexOne}
+              onChange={(event) => this.setState({ vertexOne: event.target.value })}
+            />
           </label>
           <br /><br />
           <label>
             Second vertex in edge:&nbsp;
-            <input type="text" onChange={(event) => this.setState({ vertexTwo: event.target.value })} />
+            <input
+              type="text"
+              value={this.state.vertexTwo}
+              onChange={(event) => this.setState({ vertexTwo: event.target.value })}
+            />
           </label>
           <br /><br />
           <button onClick={() => this.addEdge()}>Submit</button>
@@ -111,28 +165,6 @@ class GraphIsomorphism extends Component {
     } else {
       // TODO: reset state
       alert("Something has horribly gone wrong.");
-    }
-  }
-
-  displayGraphOperations() {
-    if (this.state.addingVertex && this.state.addingEdge) {
-      // TODO: reset state
-      console.log("Something has horribly gone wrong.");
-    } else if (this.state.addingVertex) {
-      return(
-        <button onClick={() => this.setState({addingEdge: true, addingVertex: false})}>
-          Add edge
-        </button>
-      );
-    } else if (this.state.addingEdge) {
-      return(
-        <button onClick={() => this.setState({addingVertex: true, addingEdge: false})}>
-          Add vertex
-        </button>
-      );
-    } else {
-      // TODO: reset state
-      console.log("Something has horribly gone wrong.");
     }
   }
 
@@ -187,6 +219,12 @@ class GraphIsomorphism extends Component {
           />
         </div>
 
+        <br />
+        <div>
+          Note about the above render: you might have to zoom in and out and
+          move the nodes around to see all of the nodes. You can zoom in and
+          out by scrolling within the pane.
+        </div>
         <br />
         <div>
           Two graphs

@@ -28,10 +28,12 @@ class GoldbachConjecture extends Component {
         history: newArray
       });
     }
-    axios.get(`/curiosities/goldbach/${this.state.n}`)
+    axios
+    .get(`/curiosities/goldbach/${this.state.n}`)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
+          n: "",
           queriedN: this.state.n,
           primeOne: res.data.primeOne,
           primeTwo: res.data.primeTwo,
@@ -39,6 +41,7 @@ class GoldbachConjecture extends Component {
       } else {
         /* Bad query, reset query state. */
         this.setState({
+          n: "",
           queriedN: "",
           primeOne: "",
           primeTwo: "",
@@ -72,7 +75,11 @@ class GoldbachConjecture extends Component {
           <div>
             <label>
               Enter an even number:&nbsp;
-              <input type="text" onChange={(event) => this.setState({ n: event.target.value })} />
+              <input
+                type="text"
+                value={this.state.n}
+                onChange={(event) => this.setState({ n: event.target.value })}
+              />
             </label>
             &nbsp;
             <button onClick={() => this.submitGoldbachQuery()}>
