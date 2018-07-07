@@ -152,6 +152,14 @@ class GraphIsomorphism extends Component {
     };
   }
 
+  getEvents() {
+    return {
+      select: function(event) {
+        var { nodes, edges } = event;
+      }
+    }
+  }
+
   render() {
     return(
       <MathJax.Provider>
@@ -171,11 +179,13 @@ class GraphIsomorphism extends Component {
         {this.addGraphComponents()}
         <br />
         
-        <Graph
-          graph={{ nodes: this.state.vertices, edges: this.state.edges }}
-          options={() => this.getOptions()}
-          events={() => this.getEvents()}
-        />
+        <div className="graph-vis-container">
+          <Graph
+            graph={{ nodes: this.state.vertices, edges: this.state.edges }}
+            options={() => this.getOptions()}
+            events={() => this.getEvents()}
+          />
+        </div>
 
         <br />
         <div>
@@ -186,7 +196,7 @@ class GraphIsomorphism extends Component {
           are isomorphic if there exists a permutation
           &nbsp;<MathJax.Node inline formula={"p: V_G \\rightarrow V_H"} />&nbsp;
           such that for all edges
-          &nbsp;<MathJax.Node inline formula={"\\{v,u\\} \\in E_G,\ \\{p(v),p(u)\\} \\in E_H"} />.
+          &nbsp;<MathJax.Node inline formula={"\\{v,u\\} \\in E_G, \\{p(v),p(u)\\} \\in E_H"} />.
         </div>
       </MathJax.Provider>
     );

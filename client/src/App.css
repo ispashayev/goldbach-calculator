@@ -28,7 +28,6 @@
 }
 
 .routerFlexBox {
-  margin-top: 20px;
   display: flex;
   border-top: 2px solid teal;
   border-bottom: 2px solid teal;
@@ -54,4 +53,9 @@
 
 .curiosity-title {
   color: #222;
+}
+
+.graph-vis-container {
+  border: 2px solid teal;
+  height: 250px;
 }
