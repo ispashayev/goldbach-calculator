@@ -92,14 +92,13 @@ class GoldbachConjecture extends Component {
         </div>
         <br />
         <div>
-          It's interesting to note that the Goldbach conjecture implies the
-          existence of a function (or an algorithm)
-          &nbsp;<MathJax.Node inline formula={"f"} />&nbsp;
-          that maps a pair of primes
+          It's interesting to note that the Goldbach conjecture implies a
+          relationship between a pair of primes
           &nbsp;<MathJax.Node inline formula={"(p,q)"} />&nbsp;
-          to an even number
+          and an even number
           &nbsp;<MathJax.Node inline formula={"n"} />.
-          However, such a function cannot be a one-to-one mapping.
+          However, what's also interesting is that this relationship is not a
+          one-to-one mapping.
         </div>
         <br />
         <div>
@@ -109,18 +108,14 @@ class GoldbachConjecture extends Component {
             (3,11): 3 + 11 = 14 \\\\
             (7,7): 7 + 7 = 14
           `} />
-          This implies that
-          &nbsp;<MathJax.Node inline formula="f(3,11) = f(7,7) = 14" />.
         </div>
         <br />
         <div>
           In math, we call a one-to-one mapping a bijective function, or just a
-          bijection. We care about bijections because their inverses map to
-          exactly one element. However, in our case there is no straightforward
-          way of inverting
-          &nbsp;<MathJax.Node inline formula="f" />.
-          Instead, every even number has at least one solution pair. Such a
-          function is said to be surjective.
+          bijection. We care about bijections because they pair each element
+          from either set with an element from the other set, and each element
+          gives a single inverse. In this case however, each even number can
+          have multiple and variable numbers of prime-pairs that add up to it.
         </div>
         <br />
         <div>
