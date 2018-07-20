@@ -6,147 +6,155 @@ class GraphIsomorphism extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addingVertex: true,
-      addingEdge: false,
-      vertexOne: "",
-      vertexTwo: "",
-      counter: 0,
-      labelToID: {},
-      vertices: [],
-      edges: [],
+      GraphA_addingVertex: true,
+      GraphA_addingEdge: false,
+      GraphA_vertexOne: "",
+      GraphA_vertexTwo: "",
+      GraphA_counter: 0,
+      GraphA_labelToID: {},
+      GraphA_vertices: [],
+      GraphA_edges: [],
+
+      GraphB_addingVertex: true,
+      GraphB_addingEdge: false,
+      GraphB_vertexOne: "",
+      GraphB_vertexTwo: "",
+      GraphB_counter: 0,
+      GraphB_labelToID: {},
+      GraphB_vertices: [],
+      GraphB_edges: [],
     };
   }
 
-  resetVertices() {
+  GraphA_resetVertices() {
     this.setState({
-      vertexOne: "",
-      vertexTwo: "",
+      GraphA_vertexOne: "",
+      GraphA_vertexTwo: "",
     });
   }
 
-  addVertex() {
-    if (this.state.vertexOne === "") {
-      alert("Please enter a label for the vertex!");
+  GraphA_addVertex() {
+    if (this.state.GraphA_vertexOne === "") {
+      alert("Graph A: Please enter a label for the vertex!");
       return;
     }
 
-    if (this.state.labelToID[this.state.vertexOne] !== undefined) {
-      alert("Vertex already exists. Please enter a new label.");
-      this.resetVertices();
+    if (this.state.GraphA_labelToID[this.state.GraphA_vertexOne] !== undefined) {
+      alert("Graph A: Vertex already exists. Please enter a new label.");
+      this.GraphA_resetVertices();
       return;
     }
 
-    var updatedMap = Object.assign({}, this.state.labelToID);
-    updatedMap[this.state.vertexOne] = this.state.counter;
+    var updatedMap = Object.assign({}, this.state.GraphA_labelToID);
+    updatedMap[this.state.GraphA_vertexOne] = this.state.GraphA_counter;
 
-    var updatedVertices = this.state.vertices.slice();
+    var updatedVertices = this.state.GraphA_vertices.slice();
     updatedVertices.push({
-      id: this.state.counter,
-      label: this.state.vertexOne,
-    })
+      id: this.state.GraphA_counter,
+      label: this.state.GraphA_vertexOne,
+    });
 
     this.setState({
-      counter: this.state.counter + 1,
-      labelToID: updatedMap,
-      vertices: updatedVertices,
-      vertexOne: "",
+      GraphA_counter: this.state.GraphA_counter + 1,
+      GraphA_labelToID: updatedMap,
+      GraphA_vertices: updatedVertices,
+      GraphA_vertexOne: "",
     });
   }
 
-  addEdge() {
-    if (this.state.vertexOne === "" || this.state.vertexTwo === "") {
-      alert("Please enter labels for both vertices!");
+  GraphA_addEdge() {
+    if (this.state.GraphA_vertexOne === "" || this.state.GraphA_vertexTwo === "") {
+      alert("Graph A: Please enter labels for both vertices!");
       return;
     }
 
-    var idOne = this.state.labelToID[this.state.vertexOne];
+    var idOne = this.state.GraphA_labelToID[this.state.GraphA_vertexOne];
     if (idOne === undefined) {
-      alert("Vertex one is not in the graph.");
-      this.resetVertices();
+      alert("Graph A: Vertex one is not in the graph.");
+      this.GraphA_resetVertices();
       return;
     }
 
-    var idTwo = this.state.labelToID[this.state.vertexTwo];
+    var idTwo = this.state.GraphA_labelToID[this.state.GraphA_vertexTwo];
     if (idTwo === undefined) {
-      alert("Vertex two is not in the graph.");
-      this.resetVertices();
+      alert("Graph A: Vertex two is not in the graph.");
+      this.GraphA_resetVertices();
       return;
     }
 
-    var updatedEdges = this.state.edges.slice();
+    var updatedEdges = this.state.GraphA_edges.slice();
     updatedEdges.push({
       from: idOne,
       to: idTwo,
     });
 
     this.setState({
-      edges: updatedEdges,
-      vertexOne: "",
-      vertexTwo: "",
+      GraphA_edges: updatedEdges,
+      GraphA_vertexOne: "",
+      GraphA_vertexTwo: "",
     });
   }
 
-  displayGraphOperations() {
-    if (this.state.addingVertex && this.state.addingEdge) {
+  GraphA_displayOps() {
+    if (this.state.GraphA_addingVertex && this.state.GraphA_addingEdge) {
       // TODO: reset state
-      console.log("Something has horribly gone wrong.");
-    } else if (this.state.addingVertex) {
+      console.log("Something has horribly gone wrong with Graph A.");
+    } else if (this.state.GraphA_addingVertex) {
       return(
         <button onClick={() => this.setState({
-          addingEdge: true,
-          addingVertex: false,
-          vertexOne: "",
-          vertexTwo: "",
+          GraphA_addingEdge: true,
+          GraphA_addingVertex: false,
+          GraphA_vertexOne: "",
+          GraphA_vertexTwo: "",
         })}>
           Add edge
         </button>
       );
-    } else if (this.state.addingEdge) {
+    } else if (this.state.GraphA_addingEdge) {
       return(
         <button onClick={() => this.setState({
-          addingVertex: true,
-          addingEdge: false,
-          vertexOne: "",
-          vertexTwo: "",
+          GraphA_addingVertex: true,
+          GraphA_addingEdge: false,
+          GraphA_vertexOne: "",
+          GraphA_vertexTwo: "",
         })}>
           Add vertex
         </button>
       );
     } else {
       // TODO: reset state
-      console.log("Something has horribly gone wrong.");
+      console.log("Something has horribly gone wrong with Graph A.");
     }
   }
 
-  addGraphComponents() {
-    if (this.state.addingVertex && this.state.addingEdge) {
-      // TODO: reset state
-      alert("Something has horribly gone wrong.");
-    }
-    else if (this.state.addingVertex) {
+  GraphA_addComponents() {
+    if (this.state.GraphA_addingVertex && this.state.GraphA_addingEdge) {
+      // TODO: reset everything
+      alert("Something has horribly gone wrong with Graph A.");
+    } else if (this.state.GraphA_addingVertex) {
       return(
         <div>
           <label>
             Enter a vertex:&nbsp;
             <input
               type="text"
-              value={this.state.vertexOne}
-              onChange={(event) => this.setState({ vertexOne: event.target.value })}
+              value={this.state.GraphA_vertexOne}
+              onChange={(event) => this.setState({ GraphA_vertexOne: event.target.value })}
             />
           </label>
           <br /><br />
-          <button onClick={() => this.addVertex()}>Submit</button>
+          <button onClick={() => this.GraphA_addVertex()}>Submit</button>
         </div>
       );
-    } else if (this.state.addingEdge) {
+    } else if (this.state.GraphA_addingEdge) {
       return(
         <div>
           <label>
             First vertex in edge:&nbsp;
             <input
               type="text"
-              value={this.state.vertexOne}
-              onChange={(event) => this.setState({ vertexOne: event.target.value })}
+              value={this.state.GraphA_vertexOne}
+              onChange={(event) => this.setState({ GraphA_vertexOne: event.target.value })}
             />
           </label>
           <br /><br />
@@ -154,23 +162,173 @@ class GraphIsomorphism extends Component {
             Second vertex in edge:&nbsp;
             <input
               type="text"
-              value={this.state.vertexTwo}
-              onChange={(event) => this.setState({ vertexTwo: event.target.value })}
+              value={this.state.GraphA_vertexTwo}
+              onChange={(event) => this.setState({ GraphA_vertexTwo: event.target.value })}
             />
           </label>
           <br /><br />
-          <button onClick={() => this.addEdge()}>Submit</button>
+          <button onClick={() => this.GraphA_addEdge()}>Submit</button>
         </div>
       );
     } else {
-      // TODO: reset state
-      alert("Something has horribly gone wrong.");
+      // TODO: reset everything
+      alert("Something has horribly gone wrong with Graph A.");
     }
   }
 
-  getGraph() {
-    return { nodes: this.state.vertices, edges: this.state.edges };
+  // TODO - DELETE THIS DELIMITER -------------------------------------------------
+
+  GraphB_resetVertices() {
+    this.setState({
+      GraphB_vertexOne: "",
+      GraphB_vertexTwo: "",
+    });
   }
+
+  GraphB_addVertex() {
+    if (this.state.GraphB_vertexOne === "") {
+      alert("Graph B: Please enter a label for the vertex!");
+      return;
+    }
+
+    if (this.state.GraphB_labelToID[this.state.GraphB_vertexOne] !== undefined) {
+      alert("Graph B: Vertex already exists. Please enter a new label.");
+      this.GraphB_resetVertices();
+      return;
+    }
+
+    var updatedMap = Object.assign({}, this.state.GraphB_labelToID);
+    updatedMap[this.state.GraphB_vertexOne] = this.state.GraphB_counter;
+
+    var updatedVertices = this.state.GraphB_vertices.slice();
+    updatedVertices.push({
+      id: this.state.GraphB_counter,
+      label: this.state.GraphB_vertexOne,
+    });
+
+    this.setState({
+      GraphB_counter: this.state.GraphB_counter + 1,
+      GraphB_labelToID: updatedMap,
+      GraphB_vertices: updatedVertices,
+      GraphB_vertexOne: "",
+    });
+  }
+
+  GraphB_addEdge() {
+    if (this.state.GraphB_vertexOne === "" || this.state.GraphB_vertexTwo === "") {
+      alert("Graph B: Please enter labels for both vertices!");
+      return;
+    }
+
+    var idOne = this.state.GraphB_labelToID[this.state.GraphB_vertexOne];
+    if (idOne === undefined) {
+      alert("Graph B: Vertex one is not in the graph.");
+      this.GraphB_resetVertices();
+      return;
+    }
+
+    var idTwo = this.state.GraphB_labelToID[this.state.GraphB_vertexTwo];
+    if (idTwo === undefined) {
+      alert("Graph B: Vertex two is not in the graph.");
+      this.GraphB_resetVertices();
+      return;
+    }
+
+    var updatedEdges = this.state.GraphB_edges.slice();
+    updatedEdges.push({
+      from: idOne,
+      to: idTwo,
+    });
+
+    this.setState({
+      GraphB_edges: updatedEdges,
+      GraphB_vertexOne: "",
+      GraphB_vertexTwo: "",
+    });
+  }
+
+  GraphB_displayOps() {
+    if (this.state.GraphB_addingVertex && this.state.GraphB_addingEdge) {
+      // TODO: reset state
+      console.log("Something has horribly gone wrong with Graph B.");
+    } else if (this.state.GraphB_addingVertex) {
+      return(
+        <button onClick={() => this.setState({
+          GraphB_addingEdge: true,
+          GraphB_addingVertex: false,
+          GraphB_vertexOne: "",
+          GraphB_vertexTwo: "",
+        })}>
+          Add edge
+        </button>
+      );
+    } else if (this.state.GraphB_addingEdge) {
+      return(
+        <button onClick={() => this.setState({
+          GraphB_addingVertex: true,
+          GraphB_addingEdge: false,
+          GraphB_vertexOne: "",
+          GraphB_vertexTwo: "",
+        })}>
+          Add vertex
+        </button>
+      );
+    } else {
+      // TODO: reset state
+      console.log("Something has horribly gone wrong with Graph B.");
+    }
+  }
+
+  GraphB_addComponents() {
+    if (this.state.GraphB_addingVertex && this.state.GraphB_addingEdge) {
+      // TODO: reset everything
+      alert("Something has horribly gone wrong with Graph B.");
+    } else if (this.state.GraphB_addingVertex) {
+      return(
+        <div>
+          <label>
+            Enter a vertex:&nbsp;
+            <input
+              type="text"
+              value={this.state.GraphB_vertexOne}
+              onChange={(event) => this.setState({ GraphB_vertexOne: event.target.value })}
+            />
+          </label>
+          <br /><br />
+          <button onClick={() => this.GraphB_addVertex()}>Submit</button>
+        </div>
+      );
+    } else if (this.state.GraphB_addingEdge) {
+      return(
+        <div>
+          <label>
+            First vertex in edge:&nbsp;
+            <input
+              type="text"
+              value={this.state.GraphB_vertexOne}
+              onChange={(event) => this.setState({ GraphB_vertexOne: event.target.value })}
+            />
+          </label>
+          <br /><br />
+          <label>
+            Second vertex in edge:&nbsp;
+            <input
+              type="text"
+              value={this.state.GraphB_vertexTwo}
+              onChange={(event) => this.setState({ GraphB_vertexTwo: event.target.value })}
+            />
+          </label>
+          <br /><br />
+          <button onClick={() => this.GraphB_addEdge()}>Submit</button>
+        </div>
+      );
+    } else {
+      // TODO: reset everything
+      alert("Something has horribly gone wrong with Graph B.");
+    }
+  }
+
+  // TODO - DELETE THIS DELIMITER -------------------------------------------------
 
   getOptions() {
     return {
@@ -192,6 +350,51 @@ class GraphIsomorphism extends Component {
     }
   }
 
+  getGraph(graphName) {
+    if (graphName === "A") {
+      return(
+        <div>
+          <div>
+            {this.GraphA_displayOps()}
+          </div>
+          <br />
+          <div>
+          {this.GraphA_addComponents()}
+          </div>
+          <br />
+          <div className="graph-vis-container-A">
+            <Graph
+              graph={{ nodes: this.state.GraphA_vertices, edges: this.state.GraphA_edges }}
+              options={() => this.getOptions()}
+              events={() => this.getEvents()}
+            />
+          </div>
+        </div>
+      );
+    }
+    if (graphName === "B") {
+      return(
+        <div>
+          <div>
+            {this.GraphB_displayOps()}
+          </div>
+          <br />
+          <div>
+          {this.GraphB_addComponents()}
+          </div>
+          <br />
+          <div className="graph-vis-container-B">
+            <Graph
+              graph={{ nodes: this.state.GraphB_vertices, edges: this.state.GraphB_edges }}
+              options={() => this.getOptions()}
+              events={() => this.getEvents()}
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     return(
       <MathJax.Provider>
@@ -203,25 +406,18 @@ class GraphIsomorphism extends Component {
         </div>
         <br />
         <div>
-          You can use the following buttons to construct a graph.
+          You can use the following interface to construct two separate graphs.
         </div>
         <br />
-        {this.displayGraphOperations()}
-        <br /><br />
-        {this.addGraphComponents()}
-        <br />
-        
-        <div className="graph-vis-container">
-          <Graph
-            graph={{ nodes: this.state.vertices, edges: this.state.edges }}
-            options={() => this.getOptions()}
-            events={() => this.getEvents()}
-          />
+        <div className="graphs-a-and-b-container">
+          {this.getGraph("A")}
+          <br /><br />
+          {this.getGraph("B")}
         </div>
 
         <br />
         <div>
-          Note about the above render: you might have to zoom in and out and
+          Note about the above renderer: you might have to zoom in and out and
           move the nodes around to see all of the nodes. You can zoom in and
           out by scrolling within the pane.
         </div>
