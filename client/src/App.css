@@ -55,12 +55,7 @@
   color: #222;
 }
 
-.graph-vis-container-A {
+.graph-vis-container {
   border: 2px solid teal;
-  height: 250px;
-}
-
-.graph-vis-container-B {
-  border:2px solid red;
   height: 250px;
 }
