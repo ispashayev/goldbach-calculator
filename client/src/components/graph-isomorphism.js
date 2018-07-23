@@ -28,6 +28,19 @@ class GraphBuilder extends Component {
     });
   }
 
+  resetGraph() {
+    this.setState({
+      addingVertex: true,
+      addingEdge: false,
+      vertexOne: "",
+      vertexTwo: "",
+      counter: 0,
+      labelToID: {},
+      vertices: [],
+      edges: [],
+    });
+  }
+
   addVertex() {
     if (this.state.vertexOne === "") {
       alert("Graph " + this.props.graphName
@@ -97,11 +110,11 @@ class GraphBuilder extends Component {
 
   displayOps() {
     if (this.state.addingVertex && this.state.addingEdge) {
-      // TODO: reset state
-      console.log("Something has horribly gone wrong with Graph "
+      alert("Something has horribly gone wrong with Graph "
                   + this.props.graphName);
+      this.resetGraph();
     } else if (this.state.addingVertex) {
-      return(
+      return (
         <button onClick={() => this.setState({
           addingEdge: true,
           addingVertex: false,
@@ -112,7 +125,7 @@ class GraphBuilder extends Component {
         </button>
       );
     } else if (this.state.addingEdge) {
-      return(
+      return (
         <button onClick={() => this.setState({
           addingVertex: true,
           addingEdge: false,
@@ -123,19 +136,19 @@ class GraphBuilder extends Component {
         </button>
       );
     } else {
-      // TODO: reset state
-      console.log("Something has horribly gone wrong with Graph "
+      alert("Something has horribly gone wrong with Graph "
                   + this.props.graphName);
+      this.resetGraph();
     }
   }
 
   addComponents() {
     if (this.state.addingVertex && this.state.addingEdge) {
-      // TODO: reset everything
       alert("Something has horribly gone wrong with Graph "
             + this.props.graphName);
+      this.resetGraph();
     } else if (this.state.addingVertex) {
-      return(
+      return (
         <div>
           <label>
             Enter a vertex:&nbsp;
@@ -150,7 +163,7 @@ class GraphBuilder extends Component {
         </div>
       );
     } else if (this.state.addingEdge) {
-      return(
+      return (
         <div>
           <label>
             First vertex in edge:&nbsp;
@@ -174,9 +187,9 @@ class GraphBuilder extends Component {
         </div>
       );
     } else {
-      // TODO: reset everything
       alert("Something has horribly gone wrong with Graph "
             + this.props.graphName);
+      this.resetGraph();
     }
   }
 
@@ -230,7 +243,7 @@ class GraphIsomorphism extends Component {
   }
 
   render() {
-    return(
+    return (
       <MathJax.Provider>
         <h1 className="curiosity-title">Graph Isomorphism</h1>
         <div>
