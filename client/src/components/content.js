@@ -5,7 +5,7 @@ import Home from "./home";
 import Contact from "./contact";
 
 import GoldbachConjecture from "./goldbach-conjecture";
-import GraphIsomorphism from "./graph-isomorphism";
+import GraphIsomorphism from "./graph-isomorphism/graph-isomorphism";
 import RiemannHypothesis from "./riemann-hypothesis";
 
 class Content extends Component {

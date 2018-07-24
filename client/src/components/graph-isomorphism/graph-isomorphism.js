@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import MathJax from 'react-mathjax';
 import Graph from 'react-graph-vis';
 
+import './graph-isomorphism.css';
+
 class GraphBuilder extends Component {
   constructor(props) {
     /**
@@ -215,7 +217,10 @@ class GraphBuilder extends Component {
 
   render() {
     return (
-      <div>
+      <div className="graph-isomorphism-graph-builder">
+        <h2 className="graph-isomorphism-graph-name">
+          Graph {this.props.graphName}
+        </h2>
         <div>
           {this.displayOps()}
         </div>
@@ -256,10 +261,14 @@ class GraphIsomorphism extends Component {
           You can use the following interface to construct two separate graphs.
         </div>
         <br />
-        <div className="graphs-a-and-b-container">
-          <GraphBuilder graphName="A" />  
+        <div className="graph-isomorphism-graphs-a-and-b-container">
+          <div className="graph-isomorphism-graph-builder-a">
+            <GraphBuilder graphName="A" />
+          </div>
           <br /><br />
-          <GraphBuilder graphName="B" />
+          <div className="graph-isomorphism-graph-builder-b">
+            <GraphBuilder graphName="B" />
+          </div>
         </div>
 
         <br />
