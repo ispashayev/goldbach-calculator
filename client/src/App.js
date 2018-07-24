@@ -13,7 +13,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">The Curiosity Series</h1>
+          <h1 className="App-title">THE CURIOSITY SERIES</h1>
         </header>
         <HashRouter>
           <div className="routerFlexBox">

@@ -16,6 +16,7 @@
 
 .App-title {
   font-size: 1.5em;
+  font-family: 'Russo One', sans-serif;
 }
 
 .App-intro {
@@ -54,4 +55,5 @@
 
 .curiosity-title {
   color: #222;
+  font-family: 'Russo One', sans-serif;
 }

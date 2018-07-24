@@ -4,7 +4,7 @@ class Home extends Component {
   render() {
     return (
       <div className="curiosity-home-component">
-        <h1 className="curiosity-home-title">Welcome!</h1>
+        <h1 className="curiosity-title">Welcome!</h1>
         <div>
           So far we only have a series for math, as that is my background. My
           hope is to eventually develop this into a platform where anyone
