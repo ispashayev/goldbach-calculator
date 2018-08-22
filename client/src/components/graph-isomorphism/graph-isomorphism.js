@@ -253,12 +253,42 @@ class GraphIsomorphism extends Component {
   }
 
   computeIsomorphism() {
+    /* Get a comma-separated string of edges of each graph. The vertices pf
+       each edge are separated by a space. */
     var graphA_edges = this.graphA.state.edges.map((edge_obj) => {
-      return edge_obj.from.toString() + ' ' + edge_obj.to.toString();
+      var u_id = edge_obj.from;
+      var u = this.graphA.state.vertices.filter((x) => {
+        if (x.id === u_id)
+          return true;
+        return false;
+      })[0].label;
+      var v_id= edge_obj.to;
+      var v = this.graphB.state.vertices.filter((x) => {
+        if (x.id === v_id)
+          return true;
+        return false;
+      })[0].label;
+      return u + ' ' + v;
     });
     var graphB_edges = this.graphB.state.edges.map((edge_obj) => {
-      return edge_obj.from.toString() + ' ' + edge_obj.to.toString();
+      var u_id = edge_obj.from;
+      var u = this.graphA.state.vertices.filter((x) => {
+        if (x.id === u_id)
+          return true;
+        return false;
+      })[0].label;
+      var v_id= edge_obj.to;
+      var v = this.graphB.state.vertices.filter((x) => {
+        if (x.id === v_id)
+          return true;
+        return false;
+      })[0].label;
+      return u + ' ' + v;
     });
+    console.log("Graph A edge string:");
+    console.log(graphA_edges);
+
+    /* Send a request to the server to compute an isomorphism. */
     axios
     .post(`/curiosities/graph-isomorphism/compute`, {
       A: graphA_edges,
