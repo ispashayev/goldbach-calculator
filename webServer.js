@@ -81,13 +81,19 @@ app.post('/curiosities/graph-isomorphism/compute', function (request, response) 
 
   /* Execute Python script that reads the graphs and calls the algorithms
      for computing an isomorphism on them. */
-  PythonShell.run('compute-graph-isomorphism.py', options, function (err, result) {
+  PythonShell.run('compute-graph-isomorphism.py', options, function (err, isomorphism) {
     if (err) {
       response.status(400).end();
       throw err;
     }
-    console.log(result);
-    response.status(200).send('kek');
+    var result = {}
+    if (isomorphism === 'None') {
+      result.status = -1;
+    } else {
+      result.status = 0;
+      result.isomorphism = isomorphism;
+    }
+    response.status(200).send(result);
   });
 });
 

@@ -246,7 +246,10 @@ class GraphBuilder extends Component {
 class GraphIsomorphism extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      status: "",
+      isomorphism: "",
+    };
   }
 
   computeIsomorphism() {
@@ -256,8 +259,23 @@ class GraphIsomorphism extends Component {
       B: ['1 2', '1 4', '2 3', '3 4'], // TODO: get from GraphBuilder
     })
     .then(res => {
-      console.log(res);
-      console.log(res.data);
+      var result = res.data;
+      if (result.status == -1) {
+        this.setState({
+          status: "Unable to compute an isomorphism",
+          isomorphism: "",
+        });
+      } else if (result.status == 0) {
+        this.setState({
+          status: "Found an isomorphism",
+          isomorphism: result.isomorphism,
+        });
+      } else {
+        this.setState({
+          status: "I'm sorry our backend seems to be broken",
+          isomorphism: "RIP",
+        });
+      }
     });
   }
 
@@ -305,9 +323,9 @@ class GraphIsomorphism extends Component {
         <br />
         <button onClick={() => this.computeIsomorphism()}>Compute Isomorphism</button>
         <br /><br />
-        <div>
-          Isomorphism status:
-        </div>
+        <div>{this.state.status}</div>
+        <br />
+        <div>{this.state.isomorphism}</div>
         <br />
         <div>
           How does the algorithm work? The specific one implemented here is pretty

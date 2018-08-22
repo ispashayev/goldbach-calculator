@@ -1,5 +1,5 @@
-from algorithms.lib.Graphs import Graph
 import sys
+from algorithms.lib.Graphs import Graph
 '''
 This script reads two graphs from the data directory and then runs a randomized
 algorithm to compute an isomorphism.
@@ -17,7 +17,6 @@ if __name__ == '__main__':
   G_2.add_edges(E_2)
   mapping = Graph.compute_isomorphism(G_1, G_2)
   if mapping is None:
-   print 'Unable to find an isomorphism.'
+    print 'None'
   else:
-   print 'Found isomorphism:'
-   print mapping
+    print mapping
