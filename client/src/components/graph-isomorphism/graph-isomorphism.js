@@ -253,10 +253,16 @@ class GraphIsomorphism extends Component {
   }
 
   computeIsomorphism() {
+    var graphA_edges = this.graphA.state.edges.map((edge_obj) => {
+      return edge_obj.from.toString() + ' ' + edge_obj.to.toString();
+    });
+    var graphB_edges = this.graphB.state.edges.map((edge_obj) => {
+      return edge_obj.from.toString() + ' ' + edge_obj.to.toString();
+    });
     axios
     .post(`/curiosities/graph-isomorphism/compute`, {
-      A: ['a b', 'b c', 'c d', 'd a'], // TODO: get from GraphBuilder
-      B: ['1 2', '1 4', '2 3', '3 4'], // TODO: get from GraphBuilder
+      A: graphA_edges,
+      B: graphB_edges,
     })
     .then(res => {
       var result = res.data;
@@ -295,11 +301,11 @@ class GraphIsomorphism extends Component {
         <br />
         <div className="graph-isomorphism-graphs-a-and-b-container">
           <div className="graph-isomorphism-graph-builder-a">
-            <GraphBuilder graphName="A" />
+            <GraphBuilder ref={(graphA) => { this.graphA = graphA }} graphName="A" />
           </div>
           <br /><br />
           <div className="graph-isomorphism-graph-builder-b">
-            <GraphBuilder graphName="B" />
+            <GraphBuilder ref={(graphB) => { this.graphB = graphB }} graphName="B" />
           </div>
         </div>
 
