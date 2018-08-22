@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import MathJax from 'react-mathjax';
 import Graph from 'react-graph-vis';
 
+import axios from 'axios';
+
 import './graph-isomorphism.css';
 
 class GraphBuilder extends Component {
@@ -247,6 +249,18 @@ class GraphIsomorphism extends Component {
     this.state = {};
   }
 
+  computeIsomorphism() {
+    axios
+    .post(`/curiosities/graph-isomorphism/compute`, {
+      A: ['a b', 'b c', 'c d', 'd a'], // TODO: get from GraphBuilder
+      B: ['1 2', '1 4', '2 3', '3 4'], // TODO: get from GraphBuilder
+    })
+    .then(res => {
+      console.log(res);
+      console.log(res.data);
+    });
+  }
+
   render() {
     return (
       <MathJax.Provider>
@@ -287,6 +301,23 @@ class GraphIsomorphism extends Component {
           &nbsp;<MathJax.Node inline formula={"p: V_G \\rightarrow V_H"} />&nbsp;
           such that for all edges
           &nbsp;<MathJax.Node inline formula={"\\{v,u\\} \\in E_G, \\{p(v),p(u)\\} \\in E_H"} />.
+        </div>
+        <br />
+        <button onClick={() => this.computeIsomorphism()}>Compute Isomorphism</button>
+        <br /><br />
+        <div>
+          Isomorphism status:
+        </div>
+        <br />
+        <div>
+          How does the algorithm work? The specific one implemented here is pretty
+          simple: it randomly generates permutations until one that satisfies an
+          isomorphism is found (though limited to a certain number of attempts).
+          Graph Isomorphism is a very interested problem from a computational
+          coplexity standpoint - most people believe that there exists an "efficient"
+          polynomial-time algorithm for solving it, but no one has been successful
+          in finding such an algorithm so far (even though there are algorithms for
+          special cases of this problem).
         </div>
       </MathJax.Provider>
     );

@@ -15,8 +15,10 @@
   "author": "Iskandar Pashayev",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "concurrently": "^3.6.0",
     "express": "^4.16.3",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "python-shell": "^0.5.0"
   }
 }

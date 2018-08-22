@@ -5,6 +5,10 @@ const path = require('path');
 
 const app = express();
 
+const bodyParser = require('body-parser');
+
+var PythonShell = require('python-shell');
+
 var primes;
 
 var fs = require('fs');
@@ -23,27 +27,7 @@ fs.readFile('data/primes.dat', function (error, dataBuffer) {
 /* We have the express static module do all the work for us. */
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-/* TODO: Refactor for React App */
-// app.get('/curiosities', function (request, response) {
-//   var curiosities = [];
-//   var goldbachConjecture = {
-//     link: "goldbach-conjecture",
-//     name: "Goldbach Conjecture"
-//   };
-//   var riemannHypothesis = {
-//     link: "riemann-hypothesis",
-//     name: "Riemann Hypothesis"
-//   };
-//   var graphIsomorphism = {
-//     link: "graph-isomorphism",
-//     name: "Graph Isomorphism"
-//   };
-//   curiosities.push(goldbachConjecture);
-//   curiosities.push(riemannHypothesis);
-//   curiosities.push(graphIsomorphism);
-
-//   response.status(200).send(curiosities);
-// });
+app.use(bodyParser.json());
 
 function getPrimeStructure(n) {
   var result = {
@@ -79,6 +63,32 @@ app.get('/curiosities/goldbach/:n', function(request, response) {
   /* Compute primes. */
   var result = getPrimeStructure(n);
   response.status(200).send(result);
+});
+
+app.post('/curiosities/graph-isomorphism/compute', function (request, response) {
+  
+  /*
+  Parse graphs from request body and dump them as dat files in the
+  `data/graph-isomorphism` directory.
+  */
+  var graph_A = request.body.A.join(',');
+  var graph_B = request.body.B.join(',');
+
+  var options = {
+  mode: 'text',
+  args: [graph_A, graph_B]
+};
+
+  /* Execute Python script that reads the graphs and calls the algorithms
+     for computing an isomorphism on them. */
+  PythonShell.run('compute-graph-isomorphism.py', options, function (err, result) {
+    if (err) {
+      response.status(400).end();
+      throw err;
+    }
+    console.log(result);
+    response.status(200).send('kek');
+  });
 });
 
 // The "catchall" handler: for any request that doesn't
