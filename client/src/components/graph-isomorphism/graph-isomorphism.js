@@ -285,9 +285,7 @@ class GraphIsomorphism extends Component {
       })[0].label;
       return u + ' ' + v;
     });
-    console.log("Graph A edge string:");
-    console.log(graphA_edges);
-
+    
     /* Send a request to the server to compute an isomorphism. */
     axios
     .post(`/curiosities/graph-isomorphism/compute`, {
@@ -367,11 +365,11 @@ class GraphIsomorphism extends Component {
           How does the algorithm work? The specific one implemented here is pretty
           simple: it randomly generates permutations until one that satisfies an
           isomorphism is found (though limited to a certain number of attempts).
-          Graph Isomorphism is a very interested problem from a computational
-          coplexity standpoint - most people believe that there exists an "efficient"
-          polynomial-time algorithm for solving it, but no one has been successful
-          in finding such an algorithm so far (even though there are algorithms for
-          special cases of this problem).
+          Graph Isomorphism is a very interesting problem from a computational
+          complexity standpoint - most theoreticians believe that there exists an
+          "efficient" polynomial-time algorithm for solving it, but no one has
+          yet been successful in discovering such an algorithm (even though
+          there are algorithms for special cases of this problem).
         </div>
       </MathJax.Provider>
     );
