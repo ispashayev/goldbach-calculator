@@ -272,7 +272,7 @@ class GraphIsomorphism extends Component {
     });
     var graphB_edges = this.graphB.state.edges.map((edge_obj) => {
       var u_id = edge_obj.from;
-      var u = this.graphA.state.vertices.filter((x) => {
+      var u = this.graphB.state.vertices.filter((x) => {
         if (x.id === u_id)
           return true;
         return false;
