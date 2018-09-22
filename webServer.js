@@ -7,7 +7,7 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
-var PythonShell = require('python-shell');
+// var PythonShell = require('python-shell');
 
 var primes;
 
@@ -75,26 +75,31 @@ app.post('/curiosities/graph-isomorphism/compute', function (request, response) 
   var graph_B = request.body.B.join(',');
 
   var options = {
-  mode: 'text',
-  args: [graph_A, graph_B]
-};
+    mode: 'text',
+    args: [graph_A, graph_B]
+  };
+
+  // TODO(@ispashayev): temporarily send dummy response until I get buildpack thing sorted out...
+  reponse.status(200).send({
+    status: -1,
+  });
 
   /* Execute Python script that reads the graphs and calls the algorithms
      for computing an isomorphism on them. */
-  PythonShell.run('compute-graph-isomorphism.py', options, function (err, isomorphism) {
-    if (err) {
-      response.status(400).end();
-      throw err;
-    }
-    var result = {}
-    if (isomorphism === 'None') {
-      result.status = -1;
-    } else {
-      result.status = 0;
-      result.isomorphism = isomorphism;
-    }
-    response.status(200).send(result);
-  });
+  // PythonShell.run('compute-graph-isomorphism.py', options, function (err, isomorphism) {
+  //   if (err) {
+  //     response.status(400).end();
+  //     throw err;
+  //   }
+  //   var result = {}
+  //   if (isomorphism === 'None') {
+  //     result.status = -1;
+  //   } else {
+  //     result.status = 0;
+  //     result.isomorphism = isomorphism;
+  //   }
+  //   response.status(200).send(result);
+  // });
 });
 
 // The "catchall" handler: for any request that doesn't
