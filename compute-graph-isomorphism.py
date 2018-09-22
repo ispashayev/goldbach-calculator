@@ -13,8 +13,8 @@ if __name__ == '__main__':
   E_1 =[tuple(e.split()) for e in sys.argv[1].split(',')]
   E_2 =[tuple(e.split()) for e in sys.argv[2].split(',')]
   G_1, G_2 = Graph(), Graph()
-  G_1.add_edges(E_1, raise_error=False)
-  G_2.add_edges(E_2, raise_error=False)
+  G_1.add_edges(E_1)
+  G_2.add_edges(E_2)
   mapping = Graph.compute_isomorphism(G_1, G_2)
   if mapping is None:
     print 'None'

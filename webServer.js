@@ -75,9 +75,9 @@ app.post('/curiosities/graph-isomorphism/compute', function (request, response) 
   var graph_B = request.body.B.join(',');
 
   var options = {
-    mode: 'text',
-    args: [graph_A, graph_B]
-  };
+  mode: 'text',
+  args: [graph_A, graph_B]
+};
 
   /* Execute Python script that reads the graphs and calls the algorithms
      for computing an isomorphism on them. */
