@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Navigation extends Component {
   render() {
@@ -7,8 +7,6 @@ class Navigation extends Component {
       <div className="navigation">
         <div className="curiosity-link"><NavLink to="/">Home</NavLink></div>
         <div className="curiosity-link"><NavLink to="/goldbach-conjecture">Goldbach Conjecture</NavLink></div>
-        <div className="curiosity-link"><NavLink to="/graph-isomorphism">Graph Isomorphism</NavLink></div>
-        <div className="curiosity-link"><NavLink to="/riemann-hypothesis">Riemann Hypothesis</NavLink></div>
         <div className="curiosity-link"><NavLink to="/contact">Contact Us</NavLink></div>
       </div>
     );

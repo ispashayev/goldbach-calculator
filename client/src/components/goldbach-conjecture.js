@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import axios from "axios";
-import MathJax from "react-mathjax";
+import React, { Component } from 'react';
+import axios from 'axios';
+import MathJax from 'react-mathjax';
 
 class GoldbachConjecture extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      n: "",
-      queriedN: "",
-      primeOne: "",
-      primeTwo: "",
+      n: '',
+      queriedN: '',
+      primeOne: '',
+      primeTwo: '',
       history: [],
     };
   }
 
   submitGoldbachQuery() {
-    if (this.state.queriedN !== "") {
+    if (this.state.queriedN !== '') {
       /* Append previous query to history. */
       var newArray = this.state.history.slice();
       newArray.push({
@@ -33,7 +33,7 @@ class GoldbachConjecture extends Component {
     .then(res => {
       if (res.data.success === true) {
         this.setState({
-          n: "",
+          n: '',
           queriedN: this.state.n,
           primeOne: res.data.primeOne,
           primeTwo: res.data.primeTwo,
@@ -41,10 +41,10 @@ class GoldbachConjecture extends Component {
       } else {
         /* Bad query, reset query state. */
         this.setState({
-          n: "",
-          queriedN: "",
-          primeOne: "",
-          primeTwo: "",
+          n: '',
+          queriedN: '',
+          primeOne: '',
+          primeTwo: '',
         });
       }
     });
