@@ -4,10 +4,9 @@ class Contact extends Component {
   render() {
     return (
       <div>
-        <h1 className="curiosity-title">Contact Us</h1>
-        email: ispashayev@gmail.com
-        <br />
-        github: ispashayev
+        <div className="section-header">Contact</div>
+        <div>email: ispashayev@gmail.com</div>
+        <div>github: ispashayev</div>
       </div>
     );
   }

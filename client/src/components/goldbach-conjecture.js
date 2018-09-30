@@ -53,7 +53,7 @@ class GoldbachConjecture extends Component {
   render() {
     return(
       <MathJax.Provider>
-        <h1 className="curiosity-title">The Goldbach Conjecture</h1>
+        <div className="section-header">The Goldbach Conjecture</div>
         <div>
           Any even number can be expressed as the sum of two primes. We define this
           pair of primes as the <b>Goldbach Factors</b>. Test it out yourself!

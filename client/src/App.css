@@ -28,32 +28,15 @@
   to { transform: rotate(360deg); }
 }
 
-.routerFlexBox {
-  display: flex;
-  border-top: 2px solid teal;
-  border-bottom: 2px solid teal;
-}
-
-.navigation {
-  flex: 0 0 230px;
-  border-right: 3px solid #222;
-  padding-bottom: 5px;
-}
-
-.content {
-  flex: 1;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 20px;
-}
-
-.curiosity-link {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid grey;
-}
-
-.curiosity-title {
-  color: #222;
+.section-header {
+  font-size: 1.5em;
   font-family: 'Russo One', sans-serif;
+  margin-bottom: 10px;
+}
+
+.content-pane {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
