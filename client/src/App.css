@@ -1,5 +1,19 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+div#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
+  background: #B0E0E6;
+  height: 100%;
 }
 
 .App-logo {
@@ -35,8 +49,14 @@
 }
 
 .content-pane {
-  padding-bottom: 10px;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 50%;
+  margin: 10px auto;
+  padding: 10px 20px 10px 20px;
+  background: #D3D3D3;
+  border: 2px solid black;
+}
+
+.content-pane:hover {
+  background: #F5FFFA;
+  border: 2px solid #A9A9A9;
 }

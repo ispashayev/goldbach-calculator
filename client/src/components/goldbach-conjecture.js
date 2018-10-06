@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import MathJax from 'react-mathjax';
+import { Button } from 'react-bootstrap';
 
 class GoldbachConjecture extends Component {
   constructor(props) {
@@ -82,9 +83,9 @@ class GoldbachConjecture extends Component {
               />
             </label>
             &nbsp;
-            <button onClick={() => this.submitGoldbachQuery()}>
-              Compute prime pair!
-            </button>
+            <Button bsStyle="primary" onClick={() => this.submitGoldbachQuery()}>
+              Compute Prime Pair!
+            </Button>
           </div>
           <br />
           <div>Factor one: {this.state.primeOne}</div>
