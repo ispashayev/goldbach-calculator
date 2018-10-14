@@ -14,6 +14,7 @@ div#root {
   text-align: center;
   background: #B0E0E6;
   height: 100%;
+  overflow: auto;
 }
 
 .App-logo {
