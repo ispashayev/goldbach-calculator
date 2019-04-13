@@ -36,7 +36,7 @@ class GoldbachConjecture extends Component {
       });
     }
     axios
-    .get(`/curiosities/goldbach/${this.state.n}`)
+    .get(`/factor/${this.state.n}`)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
