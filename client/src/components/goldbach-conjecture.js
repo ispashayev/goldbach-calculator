@@ -18,7 +18,9 @@ class GoldbachConjecture extends Component {
   submitGoldbachQuery() {
     if (this.state.n <= 2 || this.state.n % 2 !== 0) {
       alert('Number must be an even number greater than 2!');
-      this.state.n = 0;
+      this.setState({
+        n: 0,
+      });
       return;
     }
 
@@ -36,7 +38,7 @@ class GoldbachConjecture extends Component {
       });
     }
     axios
-    .get(`/curiosities/goldbach/${this.state.n}`)
+    .get(`/factor/${this.state.n}`)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
