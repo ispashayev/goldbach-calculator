@@ -1,4 +1,4 @@
-module github.com/ispashayev/GoldbachCalculator
+module github.com/ispashayev/goldbach-calculator
 
 go 1.12
 

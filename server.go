@@ -21,6 +21,9 @@ func check(err error) {
 func main() {
   router := gin.Default()
 
+  router.Static("/client", "./client/build")
+  router.LoadHTMLFiles("./client/build/index.html")
+
   fd, err := os.Open("data/primes.dat")
   check(err)
 
