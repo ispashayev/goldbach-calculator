@@ -1,4 +1,4 @@
-node_modules
+bin/
 client/node_modules
 client/build
 *.log
