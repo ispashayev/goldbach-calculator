@@ -1,1 +1,1 @@
-web: yarn start && bin/goldbach-calculator
+web: bin/goldbach-calculator

@@ -1,14 +1,15 @@
 {
   "name": "goldbach-calculator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "repository": "git@github.com:ispashayev/goldbach-calculator.git",
   "author": "Iskandar Pashayev <ispashayev@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "start": "cd client && yarn && yarn run build"
+  "engines": {
+    "yarn": "1.5"
   },
-  "dependencies": {
-    "yarn": "^1.15.2"
-  }
+  "scripts": {
+    "heroku-postbuild": "cd client && yarn && yarn run build"
+  },
+  "dependencies": {}
 }
