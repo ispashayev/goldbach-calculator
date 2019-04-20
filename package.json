@@ -1,7 +1,5 @@
 {
   "name": "goldbach-calculator",
-  "version": "1.0.3",
-  "main": "index.js",
   "repository": "git@github.com:ispashayev/goldbach-calculator.git",
   "author": "Iskandar Pashayev <ispashayev@gmail.com>",
   "license": "MIT",
