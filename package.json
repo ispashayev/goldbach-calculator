@@ -1,0 +1,13 @@
+{
+  "name": "goldbach-calculator",
+  "repository": "git@github.com:ispashayev/goldbach-calculator.git",
+  "author": "Iskandar Pashayev <ispashayev@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "yarn": "1.5"
+  },
+  "scripts": {
+    "heroku-postbuild": "cd client && yarn && yarn run build"
+  },
+  "dependencies": {}
+}
