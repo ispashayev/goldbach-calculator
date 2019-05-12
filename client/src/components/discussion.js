@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import MathJax from 'react-mathjax';
 
 const Discussion = () => 
   <MathJax.Provider>
+    <div className="section-header">Discussion</div>
     <div>
       It's interesting to note that the Goldbach conjecture implies a
       relationship between a pair of primes

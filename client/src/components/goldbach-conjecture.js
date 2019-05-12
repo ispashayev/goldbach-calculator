@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import MathJax from 'react-mathjax';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import FormControl from 'react-bootstrap/FormControl';
