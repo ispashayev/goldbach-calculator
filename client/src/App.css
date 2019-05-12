@@ -12,35 +12,19 @@ div#root {
 
 .App {
   text-align: center;
-  background: #B0E0E6;
+  background: #FFF5EE;
   height: 100%;
   overflow: auto;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
   padding: 20px;
-  color: white;
+  border-bottom: 2px solid #C41E3A;
 }
 
 .App-title {
   font-size: 1.5em;
   font-family: 'Russo One', sans-serif;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .section-header {
@@ -53,11 +37,15 @@ div#root {
   width: 50%;
   margin: 10px auto;
   padding: 10px 20px 10px 20px;
-  background: #D3D3D3;
-  border: 2px solid black;
+  border: 2px solid #C41E3A;
 }
 
-.content-pane:hover {
-  background: #F5FFFA;
-  border: 2px solid #A9A9A9;
+.query-results {
+  width: 18rem;
+  margin: auto;
+}
+
+.query-results-header {
+  background-color: #D3D3D3;
+  padding: 10px 15px;
 }
