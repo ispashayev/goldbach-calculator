@@ -43,9 +43,11 @@ div.sidebar a {
 .side-item {
   color: black;
   padding: 10px 20px 10px 10px;
+  -webkit-transition: background 0.5s;
+  border-radius: 5px;
 }
 .side-item:hover {
-  background: #ee91a0;
+  background: #C41E3A;
 }
 
 .section-header {
