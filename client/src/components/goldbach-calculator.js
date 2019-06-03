@@ -8,7 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-class GoldbachConjecture extends Component {
+class GoldbachCalculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +65,7 @@ class GoldbachConjecture extends Component {
           pair of primes as the <b>Goldbach Factors</b>. Test it out yourself!
         </div>
         <br />
-        <div className="goldbach-conjecture-factorizer">
+        <div>
           <InputGroup className="mb-3">
             <FormControl
               type="text"
@@ -102,4 +102,4 @@ class GoldbachConjecture extends Component {
   }
 }
 
-export default GoldbachConjecture;
+export default GoldbachCalculator;
