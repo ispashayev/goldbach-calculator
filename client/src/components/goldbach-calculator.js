@@ -49,10 +49,6 @@ class GoldbachCalculator extends Component {
           queries: updatedQueries,
         });
       }
-
-      this.setState({
-        n: undefined,
-      });
     });
   }
 
@@ -61,8 +57,7 @@ class GoldbachCalculator extends Component {
       <div>
         <div className="section-header">The Goldbach Conjecture</div>
         <div>
-          Any even number can be expressed as the sum of two primes. We define this
-          pair of primes as the <b>Goldbach Factors</b>. Test it out yourself!
+          Any even number can be expressed as the sum of two primes. Test it out yourself!
         </div>
         <br />
         <div>
