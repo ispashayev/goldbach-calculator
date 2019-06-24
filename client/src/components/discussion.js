@@ -33,14 +33,15 @@ const Discussion = () =>
     </div>
     <br />
     <div>
-      Note about the Goldbach Factorizer above:
+      Details about the Goldbach Factorizer implementation:
       <br /><br />
-      The way it works is by searching through a large primes file (10,000,000 primes).
-      Many even numbers have a very small prime number as one of their prime factors,
-      which is why in the common case the server performs the factorization
-      quickly. However, at some point the search takes a few minutes to compute since
-      the largest prime in the file is under 16,000,000. For example, factoring
-      30,000,000 will still work, but take 5-10 minutes.
+      The way it works is by scanning through a large primes file (10,000,000 primes)
+      for the first prime number. It then checks if the difference between that prime
+      and the queried even number is prime. Many even numbers have a very small prime
+      number as one of their prime factors, which is why in the common case the server
+      performs the factorization quickly. Where this method would fail is a large even
+      number where the Goldbach Factors are close to each other. Determining what even
+      numbers fit this criteria could be an interesting question.
       <br /><br />
       The prime number file was generated using a Fortran program that implements
       the sieve of Eratosthenes. The upper bound for generating 10,000,000 primes

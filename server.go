@@ -3,6 +3,7 @@ package main
 import (
   "bufio"
   "io"
+  "math"
   "os"
   "strconv"
   "strings"
@@ -18,12 +19,7 @@ func check(err error) {
   }
 }
 
-func main() {
-  router := gin.Default()
-
-  router.Static("/client", "./client/build")
-  router.LoadHTMLFiles("./client/build/index.html")
-
+func loadPrimes() (primes []int) {
   fd, err := os.Open("data/primes.dat")
   check(err)
 
@@ -31,13 +27,31 @@ func main() {
   scanner := bufio.NewScanner(primesReader)
   scanner.Split(bufio.ScanLines)
 
-  var primes []int
   for scanner.Scan() {
     prime, err := strconv.Atoi(strings.TrimSpace(scanner.Text()))
     check(err)
     primes = append(primes, prime)
   }
   check(scanner.Err())
+  return primes
+}
+
+func isPrime(query int) bool {
+  for i := 2; i <= int(math.Sqrt(float64(query))); i++ {
+    if query % i == 0 {
+      return false
+    }
+  }
+  return true
+}
+
+func main() {
+  router := gin.Default()
+
+  router.Static("/client", "./client/build")
+  router.LoadHTMLFiles("./client/build/index.html")
+
+  primes := loadPrimes()
 
   router.GET("/", func(c *gin.Context) {
     c.HTML(http.StatusOK, "index.html", gin.H{})
@@ -49,33 +63,30 @@ func main() {
       c.JSON(200, gin.H{
         "n": c.Param("n"),
         "success": false,
-        "message": "invalid query",
+        "message": "Invalid query.",
       })
     } else {
-      found, g, h := false, -1, -1
-      for i := 0; i < len(primes); i++ {
-        if found {
-          break
-        }
-        for j := i; j < len(primes); j++ {
-          if primes[i] + primes[j] == n {
-            g = primes[i]
-            h = primes[j]
-            found = true
-            break
-          }
+      for _, p := range primes {
+        q := n - p
+        if isPrime(q) {
+          c.JSON(200, gin.H{
+            "n": n,
+            "success": true,
+            "message": "Successfully factorized.",
+            "primeOne": p,
+            "primeTwo": q,
+          })
+          return
         }
       }
 
       c.JSON(200, gin.H{
         "n": n,
-        "success": true,
-        "message": "successfully factorized",
-        "primeOne": g,
-        "primeTwo": h,
+        "success": false,
+        "message": "The even number was too large.",
       })
     }
   })
 
-  router.Run() // listen and server on 0.0.0.0:8080
+  router.Run() // listen and serve on 0.0.0.0:8080
 }
