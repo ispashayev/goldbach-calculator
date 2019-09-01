@@ -1,1 +1,1 @@
-web: bin/goldbach-calculator
+web: bin/goldbach-calculator --attach-sentry
