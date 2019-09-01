@@ -2,6 +2,8 @@ package main
 
 import (
   "bufio"
+  "flag"
+  "fmt"
   "io"
   "math"
   "os"
@@ -10,12 +12,31 @@ import (
 
   "net/http"
 
+  "github.com/getsentry/sentry-go"
+  sentrygin "github.com/getsentry/sentry-go/gin"
   "github.com/gin-gonic/gin"
 )
 
 func check(err error) {
   if (err != nil) {
     panic(err)
+  }
+}
+
+func attachSentryHandler(router *gin.Engine) {
+  // Initialize Sentry's handler
+  if err := sentry.Init(sentry.ClientOptions{
+    Dsn: "www.goldbach.cloud",
+  }); err != nil {
+    fmt.Printf("Sentry initialization failed: %v\n", err)
+  }
+  router.Use(sentrygin.New(sentrygin.Options{}))
+}
+
+func loadMiddleware(router *gin.Engine, attachSentry bool) {
+  // Attach Sentry handler as middleware
+  if (attachSentry) {
+    attachSentryHandler(router)
   }
 }
 
@@ -46,7 +67,16 @@ func isPrime(query int) bool {
 }
 
 func main() {
+  // define and parse flags
+  attachSentry := flag.Bool("-attach-sentry", false, "Attach a Sentry handler to track errors")
+  flag.Parse()
+
   router := gin.Default()
+
+  /* TODO(@ispashayev): define a Flags struct and pass it instead of the individual
+                        flags separately
+  */
+  loadMiddleware(router, *attachSentry)
 
   router.Static("/client", "./client/build")
   router.LoadHTMLFiles("./client/build/index.html")
