@@ -68,7 +68,8 @@ func isPrime(query int) bool {
 
 func main() {
   // define and parse flags
-  attachSentry := flag.Bool("-attach-sentry", false, "Attach a Sentry handler to track errors")
+  attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
+
   flag.Parse()
 
   router := gin.Default()
