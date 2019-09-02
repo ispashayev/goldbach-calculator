@@ -90,7 +90,8 @@ func main() {
   })
 
   router.GET("/test-error", func(c *gin.Context) {
-    panic(errors.New("This is a test error"))
+    err := errors.New("This is a test error")
+    c.AbortWithError(500, err)
   })
 
   router.GET("/factor/:n", func(c *gin.Context) {
