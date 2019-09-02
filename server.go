@@ -26,9 +26,7 @@ func check(err error) {
 
 func attachSentryHandler(router *gin.Engine) {
   // Initialize Sentry's handler
-  if err := sentry.Init(sentry.ClientOptions{
-    Dsn: "http://www.goldbach.cloud",
-  }); err != nil {
+  if err := sentry.Init(sentry.ClientOptions{}); err != nil {
     fmt.Printf("Sentry initialization failed: %v\n", err)
   }
   router.Use(sentrygin.New(sentrygin.Options{}))
