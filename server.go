@@ -4,11 +4,13 @@ import (
   "bufio"
   "flag"
   "fmt"
+  "errors"
   "io"
   "math"
   "os"
   "strconv"
   "strings"
+  "time"
 
   "net/http"
 
@@ -26,11 +28,22 @@ func check(err error) {
 func attachSentryHandler(router *gin.Engine) {
   // Initialize Sentry's handler
   if err := sentry.Init(sentry.ClientOptions{
-    Dsn: "www.goldbach.cloud",
+    Dsn: os.Getenv("SENTRY_DSN"),
   }); err != nil {
     fmt.Printf("Sentry initialization failed: %v\n", err)
+    panic(err)
   }
-  router.Use(sentrygin.New(sentrygin.Options{}))
+
+  router.Use(sentrygin.New(sentrygin.Options{
+    Repanic: true,
+  }))
+
+  router.Use(func(c *gin.Context) {
+    if hub := sentrygin.GetHubFromContext(c); hub != nil {
+      hub.Flush(time.Second * 5)
+    }
+    c.Next()
+  })
 }
 
 func loadMiddleware(router *gin.Engine, attachSentry bool) {
@@ -86,6 +99,10 @@ func main() {
 
   router.GET("/", func(c *gin.Context) {
     c.HTML(http.StatusOK, "index.html", gin.H{})
+  })
+
+  router.GET("/test-error", func(c *gin.Context) {
+    panic(errors.New("This is a test error"))
   })
 
   router.GET("/factor/:n", func(c *gin.Context) {
