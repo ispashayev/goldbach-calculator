@@ -58,7 +58,6 @@ func doSslRedirect(router *gin.Engine) {
 		FrameDeny:             true,
 		ContentTypeNosniff:    true,
 		BrowserXssFilter:      true,
-		ContentSecurityPolicy: "default-src 'self'",
   }))
 }
 
