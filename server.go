@@ -51,7 +51,7 @@ func doSslRedirect(router *gin.Engine) {
   router.Use(secure.Secure(secure.Options{
     AllowedHosts:          []string{"www.goldbach.cloud", "goldbach-calculator.herokuapp.com"},
 		SSLRedirect:           true,
-		SSLHost:               "goldbach-calculator.herokuapp.com",
+		SSLHost:               "www.goldbach.cloud",
 		SSLProxyHeaders:       map[string]string{"X-Forwarded-Proto":   "https"},
 		STSSeconds:            315360000,
 		STSIncludeSubdomains:  true,
