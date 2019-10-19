@@ -1,1 +1,1 @@
-web: bin/goldbach-calculator --attach-sentry
+web: bin/goldbach-calculator --attach-sentry --redirect-ssl

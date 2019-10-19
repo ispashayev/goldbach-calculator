@@ -16,6 +16,7 @@ import (
 
   "github.com/getsentry/sentry-go"
   sentrygin "github.com/getsentry/sentry-go/gin"
+  "github.com/gin-gonic/contrib/secure"
   "github.com/gin-gonic/gin"
 )
 
@@ -46,10 +47,28 @@ func attachSentryHandler(router *gin.Engine) {
   })
 }
 
-func loadMiddleware(router *gin.Engine, attachSentry bool) {
+func doSslRedirect(router *gin.Engine) {
+  router.Use(secure.Secure(secure.Options{
+    AllowedHosts:          []string{"www.goldbach.cloud", "goldbach-calculator.herokuapp.com"},
+		SSLRedirect:           true,
+		SSLHost:               "www.goldbach.cloud",
+		SSLProxyHeaders:       map[string]string{"X-Forwarded-Proto":   "https"},
+		STSSeconds:            315360000,
+		STSIncludeSubdomains:  true,
+		FrameDeny:             true,
+		ContentTypeNosniff:    true,
+		BrowserXssFilter:      true,
+  }))
+}
+
+func loadMiddleware(router *gin.Engine, attachSentry bool, redirectSsl bool) {
   // Attach Sentry handler as middleware
   if (attachSentry) {
     attachSentryHandler(router)
+  }
+
+  if (redirectSsl) {
+    doSslRedirect(router)
   }
 }
 
@@ -82,6 +101,7 @@ func isPrime(query int) bool {
 func main() {
   // define and parse flags
   attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
+  redirectSsl := flag.Bool("redirect-ssl", false, "Redirect HTTP requests to HTTPS")
 
   flag.Parse()
 
@@ -90,7 +110,7 @@ func main() {
   /* TODO(@ispashayev): define a Flags struct and pass it instead of the individual
                         flags separately
   */
-  loadMiddleware(router, *attachSentry)
+  loadMiddleware(router, *attachSentry, *redirectSsl)
 
   router.Static("/client", "./client/build")
   router.LoadHTMLFiles("./client/build/index.html")
