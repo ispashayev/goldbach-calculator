@@ -17,9 +17,15 @@ class App extends Component {
         <HashRouter>
           <div className="sidebar-and-content">
             <div className="sidebar">
-              <NavLink to="/"><div className="side-item">Calculator</div></NavLink>
-              <NavLink to="/discussion"><div className="side-item">Discussion</div></NavLink>
-              <NavLink to="/contact"><div className="side-item">Contact</div></NavLink>
+              <NavLink exact to="/" className="side-item-container" activeClassName="side-item-selected">
+                <div className="side-item">Calculator</div>
+              </NavLink>
+              <NavLink to="/discussion" className="side-item-container" activeClassName="side-item-selected">
+                <div className="side-item">Discussion</div>
+              </NavLink>
+              <NavLink to="/contact" className="side-item-container" activeClassName="side-item-selected">
+                <div className="side-item">Contact</div>
+              </NavLink>
             </div>
             <div className="content-pane">
               <Route exact path="/" component={GoldbachCalculator} />
