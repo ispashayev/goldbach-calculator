@@ -95,25 +95,25 @@ func isPrime(query int) bool {
 }
 
 func main() {
-	// define and parse flags
+	// Connect to the database, and apply data model changes (if any)
+	db, err := gorm.Open("postgres", "dbname=gbcalc_dev sslmode=disable")
+	check(err)
+	defer db.Close()
+	db.AutoMigrate(&GoldbachQuery{})
+
+	// Define and parse flags
+	// TODO: Move to own function. Define a Flags struct and use it instead of the individual flags separately.
 	attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
 	redirectSsl := flag.Bool("redirect-ssl", false, "Redirect HTTP requests to HTTPS")
-
 	flag.Parse()
 
 	router := gin.Default()
 
-	/* TODO(@ispashayev): define a Flags struct and pass it instead of the individual
-	   flags separately
-	*/
 	loadMiddleware(router, *attachSentry, *redirectSsl)
 
 	router.Static("/client", "./client/build")
 	router.LoadHTMLFiles("./client/build/index.html")
 
-	db, err := gorm.Open("postgres", "dbname=gbcalc_dev sslmode=disable")
-	check(err)
-	defer db.Close()
 	primes := loadPrimes()
 
 	router.GET("/", func(c *gin.Context) {
@@ -143,11 +143,13 @@ func main() {
 						"primeOne": p,
 						"primeTwo": q,
 					})
+					fmt.Println("aaaaa")
 					db.Create(&GoldbachQuery{
-						e: uint64(n),
-						p: uint64(p),
-						q: uint64(q),
+						E: uint64(n),
+						P: uint64(p),
+						Q: uint64(q),
 					})
+					fmt.Println("bbbbb")
 					return
 				}
 			}

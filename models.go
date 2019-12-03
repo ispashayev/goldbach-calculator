@@ -6,7 +6,7 @@ import (
 
 type GoldbachQuery struct {
 	gorm.Model
-	e uint64
-	p uint64
-	q uint64
+	E uint64 `gorm:"PRIMARY_KEY"`
+	P uint64
+	Q uint64
 }
