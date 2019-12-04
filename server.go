@@ -96,7 +96,14 @@ func isPrime(query int) bool {
 
 func main() {
 	// Connect to the database, and apply data model changes (if any)
-	db, err := gorm.Open("postgres", "dbname=gbcalc_dev sslmode=disable")
+	var db *gorm.DB
+	var err error
+	dbUrl, dbUrlFound := os.LookupEnv("DATABASE_URL")
+	if dbUrlFound {
+		db, err = gorm.Open("postgres", dbUrl)
+	} else {
+		db, err = gorm.Open("postgres", "dbname=gbcalc_dev sslmode=disable")
+	}
 	check(err)
 	defer db.Close()
 	db.AutoMigrate(&GoldbachQuery{})
