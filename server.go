@@ -132,34 +132,53 @@ func main() {
 				"success": false,
 				"message": "Invalid query.",
 			})
-		} else {
-			for _, p := range primes {
-				q := n - p
-				if isPrime(q) {
-					c.JSON(200, gin.H{
-						"n":        n,
-						"success":  true,
-						"message":  "Successfully factorized.",
-						"primeOne": p,
-						"primeTwo": q,
-					})
-					fmt.Println("aaaaa")
-					db.Create(&GoldbachQuery{
-						E: uint64(n),
-						P: uint64(p),
-						Q: uint64(q),
-					})
-					fmt.Println("bbbbb")
-					return
-				}
-			}
-
-			c.JSON(200, gin.H{
-				"n":       n,
-				"success": false,
-				"message": "The even number was too large.",
-			})
+			return
 		}
+
+		var goldbachQuery GoldbachQuery
+		result := db.First(&goldbachQuery, "E = ?", n)
+
+		if !result.RecordNotFound() {
+			// This even number has been factored before
+			goldbachQuery.TimesQueried++
+			db.Save(&goldbachQuery)
+			c.JSON(200, gin.H{
+				"n":            goldbachQuery.E,
+				"success":      true,
+				"message":      "Successfully found result of previous query.",
+				"primeOne":     goldbachQuery.P,
+				"primeTwo":     goldbachQuery.Q,
+				"timesQueried": goldbachQuery.TimesQueried,
+			})
+			return
+		}
+
+		for _, p := range primes {
+			q := n - p
+			if isPrime(q) {
+				db.Create(&GoldbachQuery{
+					E:            uint64(n),
+					P:            uint64(p),
+					Q:            uint64(q),
+					TimesQueried: 1,
+				})
+				c.JSON(200, gin.H{
+					"n":            n,
+					"success":      true,
+					"message":      "Successfully computed Goldbach Factors.",
+					"primeOne":     p,
+					"primeTwo":     q,
+					"timesQueried": 1,
+				})
+				return
+			}
+		}
+
+		c.JSON(200, gin.H{
+			"n":       n,
+			"success": false,
+			"message": "The even number was too large.",
+		})
 	})
 
 	router.Run() // listen and serve on 0.0.0.0:8080
