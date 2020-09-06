@@ -4,3 +4,7 @@ client/node_modules
 client/build
 *.log
 *.lock
+
+# ide artifacts
+.idea/*
+*.code-workspace
