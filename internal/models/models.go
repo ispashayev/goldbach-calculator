@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -12,6 +13,17 @@ type GoldbachQuery struct {
 	P            uint64
 	Q            uint64
 	TimesQueried uint64
+	ComputeTime  time.Duration
+}
+
+func (gq *GoldbachQuery) Encode() map[string]interface{} {
+	return map[string]interface{}{
+		"object":       "goldbachQuery",
+		"evenNumber":   gq.E,
+		"primeOne":     gq.P,
+		"primeTwo":     gq.Q,
+		"timesQueried": gq.TimesQueried,
+	}
 }
 
 type Error struct {
@@ -26,8 +38,8 @@ func (e Error) Error() string {
 
 func (e *Error) Encode() map[string]interface{} {
 	return map[string]interface{}{
-		"object":     "error",
-		"error_type": e.ErrorType,
-		"message":    e.Message,
+		"object":    "error",
+		"errorType": e.ErrorType,
+		"message":   e.Message,
 	}
 }

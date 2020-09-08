@@ -4,22 +4,27 @@ import (
 	"fmt"
 
 	"github.com/ispashayev/goldbach-calculator/internal/dal"
+	"github.com/ispashayev/goldbach-calculator/internal/gbcalc"
 )
 
+// Server is a struct used to process user requests
 type Server struct {
-	dal    *dal.DAL
 	router Router
+	gbcalc *gbcalc.GoldbachCalculator
 }
 
+// Start initializes and returns a server
 func Start() (*Server, error) {
-	dal, err := dal.Init()
+	dal, err := dal.GetPostgresDAL()
 	if err != nil {
 		return nil, fmt.Errorf("Unable to estalish data access layer: %v", err)
 	}
 
+	gbcalc := gbcalc.GetGoldbachCalculator(dal)
+
 	server := Server{
-		dal:    dal,
-		router: getRouter(),
+		router: GetGinRouter(gbcalc),
+		gbcalc: gbcalc,
 	}
 
 	config := readCmdConfig()
@@ -33,10 +38,12 @@ func Start() (*Server, error) {
 	return &server, nil
 }
 
+// ShutDown stops the consumption of resources being used by the server
 func (s *Server) ShutDown() {
-	s.dal.Close()
+	s.router.ShutDown()
 }
 
+// Run starts the server so that it can process incoming requests
 func (s *Server) Run() {
 	s.router.Route()
 }

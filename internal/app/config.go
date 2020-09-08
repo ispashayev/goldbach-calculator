@@ -17,6 +17,10 @@ func readCmdConfig() Config {
 	}
 }
 
-func (s *Server) attachSentry() {}
+func (s *Server) attachSentry() {
+	s.router.attachSentryHandler()
+}
 
-func (s *Server) redirectSSL() {}
+func (s *Server) redirectSSL() {
+	s.router.redirectSSL()
+}
