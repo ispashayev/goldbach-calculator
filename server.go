@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"math"
 	"os"
 	"strconv"
@@ -18,8 +19,8 @@ import (
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/contrib/secure"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func attachSentryHandler(router *gin.Engine) {
@@ -100,16 +101,14 @@ func main() {
 	var err error
 	dbUrl, dbUrlFound := os.LookupEnv("DATABASE_URL")
 	if dbUrlFound {
-		db, err = gorm.Open("postgres", dbUrl)
+		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	} else {
-		db, err = gorm.Open("postgres", "dbname=gbcalc_dev sslmode=disable")
+		log.Fatal("unable to connect to database")
 	}
 	check(err)
-	defer db.Close()
 	db.AutoMigrate(&GoldbachQuery{})
 
 	// Define and parse flags
-	// TODO: Move to own function. Define a Flags struct and use it instead of the individual flags separately.
 	attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
 	redirectSsl := flag.Bool("redirect-ssl", false, "Redirect HTTP requests to HTTPS")
 	flag.Parse()
@@ -145,7 +144,7 @@ func main() {
 		var goldbachQuery GoldbachQuery
 		result := db.First(&goldbachQuery, "E = ?", n)
 
-		if !result.RecordNotFound() {
+		if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			// This even number has been factored before
 			goldbachQuery.TimesQueried++
 			db.Save(&goldbachQuery)

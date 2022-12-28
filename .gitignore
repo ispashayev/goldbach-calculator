@@ -1,6 +1,11 @@
+.envrc
+
 bin/
 node_modules
 client/node_modules
 client/build
 *.log
 *.lock
+
+# ignore VS code project files
+*.code-workspace
