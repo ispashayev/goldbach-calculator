@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -33,14 +32,14 @@ class GoldbachCalculator extends Component {
       return;
     }
 
-    axios
-    .get(`/factor/${this.state.n}`)
+    fetch(`/factor/${this.state.n}`)
+    .then(res => res.json())
     .then(res => {
-      if (res.data.success === true) {
+      if (res.success) {
         const queryResult = {
           n: this.state.n,
-          p: res.data.primeOne,
-          q: res.data.primeTwo,
+          p: res.primeOne,
+          q: res.primeTwo,
         };
         let updatedQueries = this.state.queries.slice();
         updatedQueries.push(queryResult);
