@@ -17,7 +17,6 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	sentrygin "github.com/getsentry/sentry-go/gin"
-	"github.com/gin-gonic/contrib/secure"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -44,28 +43,10 @@ func attachSentryHandler(router *gin.Engine) {
 	})
 }
 
-func doSslRedirect(router *gin.Engine) {
-	router.Use(secure.Secure(secure.Options{
-		AllowedHosts:         []string{"www.goldbach.cloud", "goldbach-calculator.herokuapp.com"},
-		SSLRedirect:          true,
-		SSLHost:              "www.goldbach.cloud",
-		SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
-		STSSeconds:           315360000,
-		STSIncludeSubdomains: true,
-		FrameDeny:            true,
-		ContentTypeNosniff:   true,
-		BrowserXssFilter:     true,
-	}))
-}
-
-func loadMiddleware(router *gin.Engine, attachSentry bool, redirectSsl bool) {
+func loadMiddleware(router *gin.Engine, attachSentry bool) {
 	// Attach Sentry handler as middleware
 	if attachSentry {
 		attachSentryHandler(router)
-	}
-
-	if redirectSsl {
-		doSslRedirect(router)
 	}
 }
 
@@ -110,12 +91,11 @@ func main() {
 
 	// Define and parse flags
 	attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
-	redirectSsl := flag.Bool("redirect-ssl", false, "Redirect HTTP requests to HTTPS")
 	flag.Parse()
 
 	router := gin.Default()
 
-	loadMiddleware(router, *attachSentry, *redirectSsl)
+	loadMiddleware(router, *attachSentry)
 
 	router.Static("/client", "./client/build")
 	router.LoadHTMLFiles("./client/build/index.html")
@@ -187,5 +167,7 @@ func main() {
 		})
 	})
 
-	router.Run() // listen and serve on 0.0.0.0:8080
+	tls_cert_file := os.Getenv("TLS_CERT_FILE")
+	tls_key_file := os.Getenv("TLS_KEY_FILE")
+	router.RunTLS(":8080", tls_cert_file, tls_key_file)
 }

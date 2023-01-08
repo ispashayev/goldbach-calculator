@@ -44,3 +44,28 @@ psql=# GRANT ALL PRIVILEGES ON DATABASE gbcalc_dev TO gbcalc_dev;
 $ psql -h localhost -U gbcalc_dev -d gbcalc_dev
 ```
 You will be prompted for the dev user password, to which you can enter `gbcalc_dev`.
+
+6. Set up a TLS certificate for localhost so that you can access the app (since TLS is required by the app). Run this from the root of the repo.
+```
+$ openssl req  -new  -newkey rsa:2048  -nodes  -keyout localhost.key  -out localhost.csr
+$ openssl x509  -req  -days 365  -in localhost.csr  -signkey localhost.key  -out localhost.crt
+```
+
+### Updating the go version
+
+Don't forget to update the heroku config
+```
+heroku config:set GOVERSION=<new_go_version>
+```
+
+### Running the app locally
+
+1. Make sure to build the frontend. From the `client/` directory, run `yarn build`
+
+2. To run the server, you can simply run `go run .` from the root of the repo. Note however, that in production the go app is automatically compiled by Heroku and then executed by the command specified in the Procfile. You can emulate this locally by running
+```
+$ go build -o bin/goldbach-calculator
+$ ./bin/goldbach-calculator
+```
+
+3. You should now be able to access the app locally via `https://localhost:8000`
