@@ -4,10 +4,10 @@
   "author": "Iskandar Pashayev <ispashayev@gmail.com>",
   "license": "MIT",
   "engines": {
-    "yarn": "1.5"
+    "yarn": "1.22"
   },
   "scripts": {
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "heroku-postbuild": "cd client && yarn && yarn build"
   },
   "dependencies": {}
 }
