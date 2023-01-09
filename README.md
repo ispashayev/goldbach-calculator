@@ -45,12 +45,6 @@ $ psql -h localhost -U gbcalc_dev -d gbcalc_dev
 ```
 You will be prompted for the dev user password, to which you can enter `gbcalc_dev`.
 
-6. Set up a TLS certificate for localhost so that you can access the app (since TLS is required by the app). Run this from the root of the repo.
-```
-$ openssl req  -new  -newkey rsa:2048  -nodes  -keyout localhost.key  -out localhost.csr
-$ openssl x509  -req  -days 365  -in localhost.csr  -signkey localhost.key  -out localhost.crt
-```
-
 ### Updating the go version
 
 Don't forget to update the heroku config
@@ -67,5 +61,3 @@ heroku config:set GOVERSION=<new_go_version>
 $ go build -o bin/goldbach-calculator
 $ ./bin/goldbach-calculator
 ```
-
-3. You should now be able to access the app locally via `https://localhost:8000`

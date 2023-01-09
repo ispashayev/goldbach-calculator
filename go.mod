@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/getsentry/sentry-go v0.16.0
+	github.com/gin-gonic/contrib v0.0.0-20221130124618-7e01895a63f2
 	github.com/gin-gonic/gin v1.8.2
 	github.com/goccy/go-json v0.10.0 // indirect
 	github.com/jackc/pgtype v1.13.0 // indirect

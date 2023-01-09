@@ -9,8 +9,3 @@ client/build
 
 # ignore VS code project files
 *.code-workspace
-
-# ignore local tls handshake files
-localhost.csr
-localhost.crt
-localhost.key
