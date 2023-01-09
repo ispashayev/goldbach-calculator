@@ -17,6 +17,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	sentrygin "github.com/getsentry/sentry-go/gin"
+	"github.com/gin-gonic/contrib/secure"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -167,7 +168,17 @@ func main() {
 		})
 	})
 
-	tls_cert_file := os.Getenv("TLS_CERT_FILE")
-	tls_key_file := os.Getenv("TLS_KEY_FILE")
-	router.RunTLS(":8080", tls_cert_file, tls_key_file)
+	router.Use(secure.Secure(secure.Options{
+		AllowedHosts:         []string{"www.goldbach.cloud", "goldbach-calculator.herokuapp.com"},
+		SSLRedirect:          true,
+		SSLHost:              "www.goldbach.cloud",
+		SSLProxyHeaders:      map[string]string{"X-Forwarded-Proto": "https"},
+		STSSeconds:           315360000,
+		STSIncludeSubdomains: true,
+		FrameDeny:            true,
+		ContentTypeNosniff:   true,
+		BrowserXssFilter:     true,
+		IsDevelopment:        os.Getenv("ENVIRONMENT") == "dev",
+	}))
+	router.Run(":8080")
 }
