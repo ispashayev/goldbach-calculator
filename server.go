@@ -180,5 +180,5 @@ func main() {
 		BrowserXssFilter:     true,
 		IsDevelopment:        os.Getenv("ENVIRONMENT") == "dev",
 	}))
-	router.Run(":8080")
+	router.Run()
 }
