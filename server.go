@@ -107,8 +107,14 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
+	router.GET("/hello-world", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello World!",
+		})
+	})
+
 	router.GET("/test-error", func(c *gin.Context) {
-		panic(errors.New("This is a test error"))
+		panic(errors.New("this is a test error"))
 	})
 
 	router.GET("/factor/:n", func(c *gin.Context) {
