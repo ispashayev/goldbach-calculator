@@ -77,7 +77,7 @@ func isPrime(query int) bool {
 	return true
 }
 
-func main() {
+func deprecatedMain() {
 	// Connect to the database, and apply data model changes (if any)
 	var db *gorm.DB
 	var err error
