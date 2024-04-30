@@ -18,10 +18,10 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
       - name: build and compress binary
         run: |
-          GOARCH=amd64 GOOS=linux go build -v -a -o bootstrap && zip bootstrap.zip bootstrap
+          GOARCH=amd64 GOOS=linux go build -v -a -o bootstrap && zip deployment.zip bootstrap
       - name: upload compressed binary
         run: |
-          aws s3 --region us-west-2 cp bootstrap.zip ${{ secrets.S3_GC_LAMBDA_URL }}/bootstrap.zip
+          aws s3 --region us-west-2 cp deployment.zip ${{ secrets.S3_GC_LAMBDA_URL }}/deployment-$(git rev-parse --short ${{ github.sha }}).zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
