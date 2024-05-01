@@ -1,4 +1,4 @@
-package main
+package deprecated
 
 import (
 	"github.com/jinzhu/gorm"
