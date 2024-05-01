@@ -2,7 +2,7 @@ name: "Publish Docker Image"
 
 on:
   push:
-    branches: [main, docker-image]
+    branches: [main]
 
 jobs:
   deploy_ecr:
