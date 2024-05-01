@@ -4,52 +4,20 @@ import (
 	"bufio"
 	"errors"
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"math"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	"net/http"
 
-	"github.com/getsentry/sentry-go"
-	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/contrib/secure"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
-
-func attachSentryHandler(router *gin.Engine) {
-	// Initialize Sentry's handler
-	if err := sentry.Init(sentry.ClientOptions{
-		Dsn: os.Getenv("SENTRY_DSN"),
-	}); err != nil {
-		fmt.Printf("Sentry initialization failed: %v\n", err)
-		panic(err)
-	}
-
-	router.Use(sentrygin.New(sentrygin.Options{
-		Repanic: true,
-	}))
-
-	router.Use(func(c *gin.Context) {
-		if hub := sentrygin.GetHubFromContext(c); hub != nil {
-			hub.Flush(time.Second * 5)
-		}
-		c.Next()
-	})
-}
-
-func loadMiddleware(router *gin.Engine, attachSentry bool) {
-	// Attach Sentry handler as middleware
-	if attachSentry {
-		attachSentryHandler(router)
-	}
-}
 
 func loadPrimes() (primes []int) {
 	fd, err := os.Open("data/primes.dat")
@@ -91,12 +59,9 @@ func deprecatedMain() {
 	db.AutoMigrate(&GoldbachQuery{})
 
 	// Define and parse flags
-	attachSentry := flag.Bool("attach-sentry", false, "Attach a Sentry handler to track errors")
 	flag.Parse()
 
 	router := gin.Default()
-
-	loadMiddleware(router, *attachSentry)
 
 	router.Static("/client", "./client/build")
 	router.LoadHTMLFiles("./client/build/index.html")
