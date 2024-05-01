@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"math"
@@ -10,12 +11,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
-
-type Event struct {
-	Number int `json:"number"`
-}
 
 type GoldbachQuery struct {
 	E int `json:"E"`
@@ -23,15 +21,13 @@ type GoldbachQuery struct {
 	Q int `json:"Q"`
 }
 
-func check(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func loadPrimes() (primes []int) {
+func loadPrimes() ([]int, error) {
 	fd, err := os.Open("data/primes.dat")
-	check(err)
+	if err != nil {
+		return nil, err
+	}
+
+	var primes []int
 
 	primesReader := io.Reader(fd)
 	scanner := bufio.NewScanner(primesReader)
@@ -39,11 +35,19 @@ func loadPrimes() (primes []int) {
 
 	for scanner.Scan() {
 		prime, err := strconv.Atoi(strings.TrimSpace(scanner.Text()))
-		check(err)
+		if err != nil {
+			return nil, err
+		}
+
 		primes = append(primes, prime)
 	}
-	check(scanner.Err())
-	return primes
+
+	err = scanner.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return primes, nil
 }
 
 func isPrime(query int) bool {
@@ -55,8 +59,11 @@ func isPrime(query int) bool {
 	return true
 }
 
-func findGoldbachFactors(evenNumber int) *GoldbachQuery {
-	primes := loadPrimes()
+func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
+	primes, err := loadPrimes()
+	if err != nil {
+		return nil, err
+	}
 
 	for _, p := range primes {
 		q := evenNumber - p
@@ -65,11 +72,11 @@ func findGoldbachFactors(evenNumber int) *GoldbachQuery {
 				E: evenNumber,
 				P: p,
 				Q: q,
-			}
+			}, nil
 		}
 	}
 
-	return nil
+	return nil, nil
 }
 
 func sanitizeGoldbachQueryInput(queryNumber int) error {
@@ -90,40 +97,39 @@ type Response struct {
 	Body       GoldbachQuery     `json:"body"`
 }
 
-func generateResponse(goldbachQuery *GoldbachQuery, err error) *Response {
-	var statusCode int
-	if err != nil {
-		statusCode = 400
-	} else {
-		statusCode = 200
+func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var err error
+	queryNumber := 0
+
+	if request.PathParameters != nil {
+		queryNumber, err = strconv.Atoi(request.PathParameters["number"])
+
+		if err != nil {
+			return events.APIGatewayProxyResponse{StatusCode: 400}, err
+		}
 	}
 
-	headers := map[string]string{"Content-Type": "application/json"}
-
-	return &Response{
-		StatusCode: statusCode,
-		Headers:    headers,
-		Body:       *goldbachQuery,
-	}
-
-}
-
-func HandleRequest(ctx context.Context, event *Event) (*Response, error) {
-	if event == nil {
-		return nil, fmt.Errorf("received nil event")
-	}
-
-	queryNumber := event.Number
-	err := sanitizeGoldbachQueryInput(queryNumber)
+	err = sanitizeGoldbachQueryInput(queryNumber)
 
 	var result *GoldbachQuery
 	if err != nil {
-		result = findGoldbachFactors(queryNumber)
-	} else {
-		result = &GoldbachQuery{0, 0, 0}
+		result, err = findGoldbachFactors(queryNumber)
 	}
 
-	return generateResponse(result, err), err
+	var serializedResult []byte
+	if err != nil {
+		serializedResult, err = json.Marshal(result)
+	}
+
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 400}, err
+	}
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: 200,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       string(serializedResult),
+	}, nil
 }
 
 func main() {
