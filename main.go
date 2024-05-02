@@ -23,7 +23,7 @@ type GoldbachQuery struct {
 }
 
 func loadPrimes() ([]int, error) {
-	fd, err := os.Open("data/primes.dat")
+	fd, err := os.Open("/goldbach-calculator/data/primes.dat")
 	if err != nil {
 		return nil, err
 	}
