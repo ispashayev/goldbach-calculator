@@ -47,6 +47,7 @@ func loadPrimes() ([]int, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("Loaded %d primes", len(primes))
 
 	return primes, nil
 }
@@ -67,8 +68,10 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 	}
 
 	for _, p := range primes {
+		log.Printf("On prime: %d", p)
 		q := evenNumber - p
 		if isPrime(q) {
+			log.Printf("Found primes! %d, %d", p, q)
 			return &GoldbachQuery{
 				E: evenNumber,
 				P: p,
@@ -77,6 +80,7 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 		}
 	}
 
+	log.Println("did not find primes...")
 	return nil, nil
 }
 
@@ -117,7 +121,6 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	var result *GoldbachQuery
 	if err != nil {
 		result, err = findGoldbachFactors(queryNumber)
-		log.Printf("Computed result: %d, %d\n", result.P, result.Q)
 	}
 
 	var serializedResult []byte
