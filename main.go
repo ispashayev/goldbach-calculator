@@ -119,12 +119,12 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	err = sanitizeGoldbachQueryInput(queryNumber)
 
 	var result *GoldbachQuery
-	if err != nil {
+	if err == nil {
 		result, err = findGoldbachFactors(queryNumber)
 	}
 
 	var serializedResult []byte
-	if err != nil {
+	if err == nil {
 		serializedResult, err = json.Marshal(result)
 	}
 	log.Printf("serialized result: %s\n", string(serializedResult))
