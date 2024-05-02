@@ -89,7 +89,7 @@ func sanitizeGoldbachQueryInput(queryNumber int) error {
 		return fmt.Errorf("number is negative")
 	}
 
-	if queryNumber%2 == 0 {
+	if queryNumber%2 == 1 {
 		return fmt.Errorf("number is odd")
 	}
 
