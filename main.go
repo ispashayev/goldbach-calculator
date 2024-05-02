@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"math"
 	"os"
 	"strconv"
@@ -100,6 +101,7 @@ type Response struct {
 func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var err error
 	queryNumber := 0
+	log.Println("received request")
 
 	if request.PathParameters != nil {
 		queryNumber, err = strconv.Atoi(request.PathParameters["number"])
@@ -108,18 +110,21 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 			return events.APIGatewayProxyResponse{StatusCode: 400}, err
 		}
 	}
+	log.Printf("query number: %d\n", queryNumber)
 
 	err = sanitizeGoldbachQueryInput(queryNumber)
 
 	var result *GoldbachQuery
 	if err != nil {
 		result, err = findGoldbachFactors(queryNumber)
+		log.Printf("Computed result: %d, %d\n", result.P, result.Q)
 	}
 
 	var serializedResult []byte
 	if err != nil {
 		serializedResult, err = json.Marshal(result)
 	}
+	log.Printf("serialized result: %s\n", string(serializedResult))
 
 	if err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 400}, err
