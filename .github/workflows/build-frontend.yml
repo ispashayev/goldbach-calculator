@@ -1,0 +1,29 @@
+name: "Build Frontend"
+
+on:
+  push:
+    branches: [main, frontend-build-ci]
+
+jobs:
+  build_frontend:
+    name: Build Frontend and Upload to S3
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v4
+      
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      
+      - name: build frontend
+        run: |
+          cd frontend && yarn && yarn build
+      
+      - name: upload build to s3
+        run: |
+          aws s3 cp -r build ${{ secrets.AWS_S3_FRONTEND_BUCKET }}
