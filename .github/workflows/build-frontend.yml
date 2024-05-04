@@ -27,4 +27,4 @@ jobs:
       - name: upload build to s3
         run: |
           aws s3 rm --recursive ${{ secrets.AWS_S3_FRONTEND_BUCKET }}/build
-          aws s3 cp --recursive ./build ${{ secrets.AWS_S3_FRONTEND_BUCKET }}/.
+          aws s3 cp --recursive ./frontend/build ${{ secrets.AWS_S3_FRONTEND_BUCKET }}/build
