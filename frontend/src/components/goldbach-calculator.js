@@ -15,6 +15,7 @@ class GoldbachCalculator extends Component {
       primeOne: '',
       primeTwo: '',
       queries: [],
+      isLoading: false,
     };
   }
 
@@ -28,27 +29,31 @@ class GoldbachCalculator extends Component {
       alert('Number must be an even number greater than 2!');
       this.setState({
         n: undefined,
+        isLoading: false,
       });
       return;
+    } else {
+      this.setState({
+        isLoading: true,
+      })
     }
 
-    fetch(`/factor/${this.state.n}`)
-    .then(res => res.json())
-    .then(res => {
-      if (res.success) {
+    fetch(`${process.env.REACT_APP_GOLDBACH_CALCULATOR_LAMBDA_URL}/factor/${this.state.n}`)
+      .then(res => res.json())
+      .then(res => {
         const queryResult = {
           n: this.state.n,
-          p: res.primeOne,
-          q: res.primeTwo,
+          p: res.P,
+          q: res.Q,
         };
         let updatedQueries = this.state.queries.slice();
         updatedQueries.push(queryResult);
 
         this.setState({
           queries: updatedQueries,
+          isLoading: false,
         });
-      }
-    });
+      });
   }
 
   render() {
@@ -70,7 +75,11 @@ class GoldbachCalculator extends Component {
               onChange={(event) => this.setState({ n: event.target.value })}
             />
             <InputGroup.Append>
-              <Button variant="outline-secondary" onClick={() => this.submitGoldbachQuery()}>
+              <Button
+                variant="outline-secondary"
+                onClick={() => this.submitGoldbachQuery()}
+                disabled={this.state.isLoading}
+              >
                 Compute prime pair!
               </Button>
             </InputGroup.Append>
@@ -79,7 +88,7 @@ class GoldbachCalculator extends Component {
         {this.state.queries.length > 0 && (
           <Card className="query-results">
             <Card.Header className="query-results-header">
-                Query Results
+              Query Results
             </Card.Header>
             <ListGroup variant="flush">
               {
