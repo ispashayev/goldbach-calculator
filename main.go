@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -52,26 +51,37 @@ func loadPrimes() ([]int, error) {
 	return primes, nil
 }
 
-func isPrime(query int) bool {
-	for i := 2; i <= int(math.Sqrt(float64(query))); i++ {
-		if query%i == 0 {
-			return false
-		}
-	}
-	return true
-}
-
 func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 	primes, err := loadPrimes()
 	if err != nil {
 		return nil, err
 	}
 
-	for _, p := range primes {
-		log.Printf("On prime: %d", p)
-		q := evenNumber - p
-		if isPrime(q) {
-			log.Printf("Found primes! %d, %d", p, q)
+	// Step 1. Find smallest prime that is greater than the even number
+	lPrime, rPrime := 0, len(primes)-1
+	for lPrime < rPrime {
+		mid := (lPrime + rPrime + 1) / 2
+		prime := primes[mid]
+		if prime > evenNumber {
+			rPrime = mid - 1
+		} else {
+			lPrime = mid + 1
+		}
+	}
+
+	// Step 2. Perform a two pointer search among prime pairs
+	lPrime = 0
+	for lPrime < rPrime {
+		p, q := primes[lPrime], primes[rPrime]
+		log.Printf("On prime pairs: (%d, %d)", p, q)
+
+		primeSum := p + q
+		if primeSum > evenNumber {
+			rPrime -= 1
+		} else if primeSum < evenNumber {
+			lPrime += 1
+		} else {
+			log.Printf("Found primes! (%d, %d)", p, q)
 			return &GoldbachQuery{
 				E: evenNumber,
 				P: p,
@@ -80,7 +90,7 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 		}
 	}
 
-	log.Println("did not find primes...")
+	log.Printf("did not find primes...")
 	return nil, nil
 }
 
