@@ -71,7 +71,7 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 
 	// Step 2. Perform a two pointer search among prime pairs
 	lPrime = 0
-	for lPrime < rPrime {
+	for lPrime <= rPrime {
 		p, q := primes[lPrime], primes[rPrime]
 		log.Printf("On prime pairs: (%d, %d)", p, q)
 
