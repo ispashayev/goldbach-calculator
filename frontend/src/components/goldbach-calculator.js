@@ -130,9 +130,9 @@ class GoldbachCalculator extends Component {
             </Card.Header>
             <ListGroup variant="flush">
               {
-                this.state.queries.map((query) =>
-                  <ListGroup.Item>
-                    {query.n} = {query.p} + {query.q}
+                this.state.queries.map((query, index) =>
+                  <ListGroup.Item key={index}>
+                    {Number(query.n).toLocaleString()} = {Number(query.p).toLocaleString()} + {Number(query.q).toLocaleString()}
                   </ListGroup.Item>
                 )
               }
