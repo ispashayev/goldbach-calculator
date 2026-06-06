@@ -57,7 +57,18 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 		return nil, err
 	}
 
-	// Step 1. Find smallest prime that is greater than the even number
+	if len(primes) == 0 {
+		log.Printf("No primes loaded.")
+		return nil, nil
+	}
+
+	maxPrime := primes[len(primes)-1]
+	if evenNumber > 2*maxPrime {
+		log.Printf("Even number %d is too large (max queryable: %d)", evenNumber, 2*maxPrime)
+		return nil, nil
+	}
+
+	// Step 1. Find the largest prime that is less than or equal to the even number
 	lPrime, rPrime := 0, len(primes)-1
 	for lPrime < rPrime {
 		mid := (lPrime + rPrime + 1) / 2
@@ -65,7 +76,7 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 		if prime > evenNumber {
 			rPrime = mid - 1
 		} else {
-			lPrime = mid + 1
+			lPrime = mid
 		}
 	}
 
@@ -73,7 +84,6 @@ func findGoldbachFactors(evenNumber int) (*GoldbachQuery, error) {
 	lPrime = 0
 	for lPrime <= rPrime {
 		p, q := primes[lPrime], primes[rPrime]
-		log.Printf("On prime pairs: (%d, %d)", p, q)
 
 		primeSum := p + q
 		if primeSum > evenNumber {
