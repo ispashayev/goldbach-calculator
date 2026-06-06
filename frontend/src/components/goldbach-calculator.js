@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 class GoldbachCalculator extends Component {
@@ -16,6 +18,7 @@ class GoldbachCalculator extends Component {
       primeTwo: '',
       queries: [],
       isLoading: false,
+      error: null,
     };
   }
 
@@ -35,11 +38,23 @@ class GoldbachCalculator extends Component {
     } else {
       this.setState({
         isLoading: true,
+        error: null,
       })
     }
 
     fetch(`${process.env.REACT_APP_GOLDBACH_CALCULATOR_LAMBDA_URL}/factor/${this.state.n}`)
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) {
+          let errData;
+          try {
+            errData = await res.json();
+          } catch (e) {
+            throw new Error(`Request failed with status ${res.status}`);
+          }
+          throw new Error(errData.error || 'An error occurred while computing the primes.');
+        }
+        return res.json();
+      })
       .then(res => {
         const queryResult = {
           n: this.state.n,
@@ -52,6 +67,12 @@ class GoldbachCalculator extends Component {
         this.setState({
           queries: updatedQueries,
           isLoading: false,
+        });
+      })
+      .catch(err => {
+        this.setState({
+          isLoading: false,
+          error: err.message,
         });
       });
   }
@@ -80,11 +101,28 @@ class GoldbachCalculator extends Component {
                 onClick={() => this.submitGoldbachQuery()}
                 disabled={this.state.isLoading}
               >
-                Compute prime pair!
+                {this.state.isLoading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    /> Computing...
+                  </>
+                ) : (
+                  'Compute prime pair!'
+                )}
               </Button>
             </InputGroup.Append>
           </InputGroup>
         </div>
+        {this.state.error && (
+          <Alert variant="danger" className="mb-3">
+            {this.state.error}
+          </Alert>
+        )}
         {this.state.queries.length > 0 && (
           <Card className="query-results">
             <Card.Header className="query-results-header">
