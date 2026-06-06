@@ -121,7 +121,12 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 		queryNumber, err = strconv.Atoi(request.PathParameters["number"])
 
 		if err != nil {
-			return events.APIGatewayProxyResponse{StatusCode: 400}, err
+			errBody, _ := json.Marshal(map[string]string{"error": "Invalid query number"})
+			return events.APIGatewayProxyResponse{
+				StatusCode: 400,
+				Headers: map[string]string{"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
+				Body: string(errBody),
+			}, nil
 		}
 	}
 	log.Printf("query number: %d\n", queryNumber)
@@ -133,14 +138,24 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 		result, err = findGoldbachFactors(queryNumber)
 	}
 
-	var serializedResult []byte
-	if err == nil {
-		serializedResult, err = json.Marshal(result)
+	if err == nil && result == nil {
+		err = fmt.Errorf("The even number was too large to compute.")
 	}
+
+	if err != nil {
+		errBody, _ := json.Marshal(map[string]string{"error": err.Error()})
+		return events.APIGatewayProxyResponse{
+			StatusCode: 400,
+			Headers: map[string]string{"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
+			Body: string(errBody),
+		}, nil
+	}
+
+	serializedResult, err := json.Marshal(result)
 	log.Printf("serialized result: %s\n", string(serializedResult))
 
 	if err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: 400}, err
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
 	}
 
 	return events.APIGatewayProxyResponse{
